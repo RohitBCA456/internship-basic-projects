@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rohit's Portfolio</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <header>
+      <nav class="navbar">
+        <h1 class="logo">My Portfolio Website</h1>
+        <ul class="nav-links">
+          <li><a href="#home">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="skills.html">Skills</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+      <div class="hero-content">
+        <h2>Hello, I'm <span>Rohit</span></h2>
+        <p>
+          A Backend Developer building efficient, scalable APIs and web apps.
+        </p>
+        <a href="#projects" class="btn">Explore My Work</a>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+      <div class="container">
+        <h2>About Me</h2>
+        <p>
+          <strong>
+            I’m a passionate backend developer with expertise in creating
+            secure, scalable, and high-performing server-side applications. My
+            tools of choice include Node.js, Express, and MongoDB, and I have
+            hands-on experience integrating message queues like RabbitMQ for
+            microservice communication. I enjoy collaborating with teams and
+            turning complex problems into elegant, robust solutions.
+          </strong>
+        </p>
+      </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section class="skills" id="skills">
+      <div class="container">
+        <h2>Skills</h2>
+        <div class="skill-list">
+          <div class="skill-item">
+            <img
+              src="https://img.icons8.com/color/48/000000/nodejs.png"
+              alt="Node.js"
+            />
+            <span>Node.js</span>
+          </div>
+          <div class="skill-item">
+            <img
+              src="https://img.icons8.com/fluency/48/express-js.png"
+              alt="Express.js"
+            />
+            <span>Express.js</span>
+          </div>
+          <div class="skill-item">
+            <img
+              src="https://img.icons8.com/color/48/mongodb.png"
+              alt="MongoDB"
+            />
+            <span>MongoDB</span>
+          </div>
+          <div class="skill-item">
+            <img
+              src="https://img.icons8.com/color/48/javascript.png"
+              alt="JavaScript"
+            />
+            <span>JavaScript</span>
+          </div>
+          <div class="skill-item">
+            <img
+              src="https://img.icons8.com/ios-filled/48/github.png"
+              alt="GitHub"
+            />
+            <span>Git & GitHub</span>
+          </div>
+          <div class="skill-item">
+            <img src="https://img.icons8.com/color/48/html-5.png" alt="HTML" />
+            <span>HTML</span>
+          </div>
+          <div class="skill-item">
+            <img src="https://img.icons8.com/color/48/css3.png" alt="CSS" />
+            <span>CSS</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="projects" id="projects">
+      <div class="container">
+        <h2>Projects</h2>
+        <div class="project-list">
+          <div class="project-card">
+            <img
+              src="https://i.pinimg.com/originals/c9/eb/6b/c9eb6b8d57ceffecb9846ec0379c66c6.gif" height="330px"
+              alt="Blood App"
+            />
+            <h3>Blood Donation App</h3>
+            <p>
+              Find and donate blood easily. Built with Node.js and MongoDB.
+              Frontend deployed on Netlify.
+            </p>
+          </div>
+          <div class="project-card">
+            <img
+              src="https://soundiiz.com/build/images/9ea26d82..gif"
+              alt="AI Playlist"
+            />
+            <h3>AI Playlist Recommender</h3>
+            <p>
+              Detects emotion and recommends music using Gemini API. Combines
+              face + text input.
+            </p>
+          </div>
+          <div class="project-card">
+            <img
+              src="https://msoft.af/wp-content/uploads/2024/12/E-commerce-Website.gif" height="325px"
+              alt="E-commerce"
+            />
+            <h3>E-commerce API</h3>
+            <p>
+              Robust REST API with JWT, Stripe payments, user roles, and MongoDB
+              Atlas storage.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+      <div class="container">
+        <h2>Contact Me</h2>
+        <p>Want to work together or hire me? Let’s talk!</p>
+        <a href="mailto:youremail@example.com" class="btn">Email Me</a>
+      </div>
+    </section>
+
+    <footer>
+      <p>&copy; 2025 Rohit. All rights reserved.</p>
+    </footer>
+    <script src="script.js"></script>
+  </body>
+</html>

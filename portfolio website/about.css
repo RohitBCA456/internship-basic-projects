@@ -1,0 +1,216 @@
+/* Reset and Global Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Segoe UI", sans-serif;
+  background-color: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* Navbar */
+.navbar {
+  background-color: #222;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.logo {
+  color: #00bcd4;
+  font-size: 1.6rem;
+  font-weight: bold;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+}
+
+.nav-links li a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.nav-links li a:hover {
+  color: #00bcd4;
+}
+
+/* About Card Section */
+.about-card {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  gap: 3rem;
+  background-color: #fff;
+}
+
+.about-image img {
+  width: 300px;
+  height: auto;
+  border-radius: 15px;
+  object-fit: cover;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.about-text {
+  max-width: 600px;
+}
+
+.about-text h2 {
+  font-size: 2.2rem;
+  color: #00bcd4;
+  margin-bottom: 1rem;
+}
+
+.about-text h3 {
+  font-size: 1.4rem;
+  color: #444;
+  margin-bottom: 1rem;
+}
+
+.about-text p {
+  font-size: 1rem;
+  color: #555;
+}
+
+/* Social Icons */
+.social-icons {
+  margin-top: 1rem;
+  display: flex;
+  gap: 1rem;
+}
+
+.social-icons i {
+  font-size: 1.5rem;
+  color: #00bcd4;
+  transition: transform 0.3s ease;
+  cursor: pointer;
+}
+
+.social-icons i:hover {
+  transform: scale(1.2);
+}
+
+/* Education Section */
+.education {
+  padding: 3rem 2rem;
+  background-color: #f9f9f9;
+  text-align: center;
+}
+
+.education h2 {
+  font-size: 2rem;
+  color: #00bcd4;
+  margin-bottom: 2rem;
+}
+
+.education ul {
+  list-style: none;
+}
+
+.education li {
+  margin-bottom: 1.5rem;
+}
+
+.education h3 {
+  font-size: 1.2rem;
+  color: #222;
+}
+
+.education p {
+  font-size: 1rem;
+  color: #666;
+}
+
+/* Certificates Section */
+.certificates {
+  padding: 3rem 2rem;
+  background-color: #fff;
+  text-align: center;
+}
+
+.certificates h2 {
+  font-size: 2rem;
+  color: #00bcd4;
+  margin-bottom: 2rem;
+}
+
+.certificate-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  align-items: center;
+}
+
+.certificate-item {
+  max-width: 900px;
+  text-align: left;
+  background-color: #fdfdfd;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  position: relative;
+}
+
+.certificate-header {
+  margin-bottom: 1rem;
+}
+
+.certificate-header h3 {
+  color: #222;
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+}
+
+.certificate-header p {
+  color: #444;
+  font-size: 1rem;
+}
+
+.toggle-btn {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  cursor: pointer;
+  color: #00bcd4;
+  font-size: 1.2rem;
+}
+
+/* Certificate Image */
+.certificate-img {
+  width: 100%;
+  max-height: 600px;
+  object-fit: contain;
+  border-radius: 10px;
+  margin-top: 1rem;
+  display: none;
+}
+
+.certificate-img.visible {
+  display: block;
+}
+
+/* Footer */
+footer {
+  background-color: #222;
+  color: white;
+  text-align: center;
+  padding: 1.2rem;
+  margin-top: 3rem;
+  font-size: 0.95rem;
+}

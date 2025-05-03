@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About Me</title>
+    <link rel="stylesheet" href="about.css" />
+    <!-- Font Awesome for Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body>
+      <!-- Navbar -->
+      <header>
+        <nav class="navbar">
+          <h1 class="logo">My Portfolio Website</h1>
+          <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="skills.html">Skills</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </nav>
+      </header>
+
+      <section class="about-card">
+        <div class="about-image">
+          <img src="me.jpeg" alt="Profile" />
+        </div>
+        <div class="about-text">
+          <h2>ABOUT ME</h2>
+          <h3>ROHIT YADAV - BACKEND DEVELOPER</h3>
+          <p>
+            Hi, I'm Rohit Yadav, a backend developer with a passion for building
+            robust, scalable, and efficient systems. With a strong foundation in
+            backend technologies like Node.js, Express, and databases like
+            MongoDB, I focus on creating solutions that ensure seamless data
+            flow and smooth user experiences. My approach to development
+            emphasizes clean code, performance optimization, and scalability.
+            I'm always learning new tools and techniques to stay ahead in the
+            fast-evolving world of backend development and enhance the
+            functionality of the systems I work on.
+          </p>
+
+          <div class="social-icons">
+            <i class="fab fa-behance"></i>
+            <i class="fab fa-dribbble"></i>
+            <i class="fab fa-twitter"></i>
+            <i class="fab fa-instagram"></i>
+          </div>
+        </div>
+      </section>
+      <!-- Education Section -->
+      <section class="education">
+        <h2>Education</h2>
+        <ul>
+          <li>
+            <h3>Bachelor of Computer Applications (BCA)</h3>
+            <p>Dibrugarh University – 2023 to 2026</p>
+          </li>
+          <li>
+            <h3>Higher Secondary Education</h3>
+            <p>OUR ABC Academy – 2019 to 2023</p>
+          </li>
+        </ul>
+      </section>
+
+      <!-- Certificates Section -->
+      <section class="certificates">
+        <h2>Certificates</h2>
+        <div class="certificate-list">
+          <div class="certificate-item">
+            <div class="certificate-header">
+              <h3>NCC Camp Certificate</h3>
+              <p>
+                I earned this NCC Camp Certificate for successfully
+                participating in the Combined Annual Training Camp organized by
+                the National Cadet Corps (NCC). The camp was held at JNV
+                Bordumsa from 13th June to 22nd June 2019, under 26 Assam (I)
+                Coy NCC, Digboi, while I was a student at Our ABC Academy.
+                During the camp, I was designated as a Cadet with Regimental No.
+                AS18 JDA 160082. My conduct was rated as Satisfactory/Good/Very
+                Good/Exemplary, and the experience greatly enhanced my
+                discipline, teamwork, and leadership skills.
+              </p>
+              <i class="fas fa-eye toggle-btn" data-target="cert1"></i>
+            </div>
+            <img
+              src="NCC.jpeg"
+              width="1000px"
+              height="700px"
+              alt="NCC Camp Certificate"
+              class="certificate-img hidden"
+              id="cert1"
+            />
+          </div>
+
+          <div class="certificate-item">
+            <div class="certificate-header">
+              <h3>BlockChain Certificate</h3>
+              <p>
+                I received this Certificate of Participation for attending a
+                workshop titled "Introduction to Blockchain and Its
+                Applications" on October 26, 2024. The event was organized by
+                the Centre for Computer Science and Applications, Dibrugarh
+                University. It was a great opportunity to deepen my
+                understanding of blockchain technology and explore its
+                real-world applications. The workshop was coordinated by Dr.
+                Ujjal Saikia, chaired by Prof. Tazid Ali, and supported by
+                Ankumon Sarmah, President of Anazori.
+              </p>
+              <i class="fas fa-eye toggle-btn" data-target="cert2"></i>
+            </div>
+            <img
+              src="blockchain certificate.jpeg"
+              alt="MongoDB Certificate"
+              class="certificate-img hidden"
+              id="cert2"
+            />
+          </div>
+        </div>
+      </section>
+    </div>
+  </body>
+  <footer>
+    <p>&copy; 2025 Rohit. All rights reserved.</p>
+  </footer>
+  <script
+    src="https://kit.fontawesome.com/a076d05399.js"
+    crossorigin="anonymous"
+  ></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script src="about.js"></script>
+</html>

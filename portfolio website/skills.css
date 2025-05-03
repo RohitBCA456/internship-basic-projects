@@ -1,0 +1,129 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Segoe UI", sans-serif;
+  background-color: #f4f4f4;
+  color: #333;
+}
+
+/* Navbar Styles */
+.navbar {
+  background-color: #222;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+}
+
+.logo {
+  color: #00bcd4;
+  font-size: 1.6rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+}
+
+.nav-links li a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.nav-links li a:hover {
+  color: #00bcd4;
+}
+
+/* Footer */
+footer {
+  background-color: #222;
+  color: white;
+  text-align: center;
+  padding: 1.5rem;
+}
+
+/* Skills Section */
+.skills-section {
+  padding: 4rem 2rem;
+  background-color: #fff;
+  text-align: center;
+}
+
+.skills-section h2 {
+  font-size: 2rem;
+  color: #222;
+  margin-bottom: 2rem;
+}
+
+/* Added margin to skills-category to prevent overlap */
+.skills-category {
+  margin-bottom: 4rem; /* Space between each category */
+}
+
+/* Adjust margin for section titles */
+.skills-category h3 {
+  font-size: 1.6rem;
+  color: #222;
+  margin-bottom: 1.5rem; /* Space between title and skill cards */
+}
+
+/* Skills Grid Layout */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 2rem;
+  /* Ensuring grid items align properly even after animation */
+  transition: all 0.3s ease-in-out;
+}
+
+/* Skill Card */
+.skill-card {
+  background-color: #f9f9f9;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Box shadow added */
+  transition: transform 0.3s ease;
+  /* Setting height to prevent layout shift during animation */
+  min-height: 180px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.skill-card:hover {
+  transform: translateY(-5px);
+}
+
+.skill-card img {
+  width: 60px;
+  height: 60px;
+  margin-bottom: 1rem;
+  background: transparent;
+  object-fit: contain;
+}
+
+
+
+.skill-card h3 {
+  color: #00bcd4;
+  margin-bottom: 0.5rem;
+}
+
+.skill-card p {
+  font-size: 0.9rem;
+  color: #444;
+  line-height: 1.4;
+}
