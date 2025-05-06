@@ -1,16 +1,15 @@
 // Initialize EmailJS
 (function () {
-  emailjs.init(""); // Replace this with your actual EmailJS public key
+  emailjs.init("PUBLIC_KEY");
 })();
 
-// Form submission using EmailJS
 document
   .getElementById("contact-form")
   .addEventListener("submit", function (e) {
-    e.preventDefault(); // Prevent default form behavior
+    e.preventDefault();
 
-    const serviceID = ""; // e.g., service_xxxx
-    const templateID = ""; // e.g., template_xxxx
+    const serviceID = "SERVICE_ID"; 
+    const templateID = "TEMPLATE_ID";
     emailjs
       .sendForm(serviceID, templateID, this)
 
