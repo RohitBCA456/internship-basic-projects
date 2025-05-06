@@ -15,8 +15,17 @@ gsap.utils.toArray("section").forEach((section) => {
 gsap.registerPlugin(ScrollTrigger);
 
 gsap.from(".navbar", {
-  y: -60,
-  duration: 1,
+  y: -100,
   opacity: 0,
-  ease: "bounce.out",
+  duration: 1,
+  ease: "power3.out",
+});
+
+gsap.from(".nav-links li", {
+  y: -20,
+  opacity: 0,
+  duration: 1,
+  ease: "power2.out",
+  stagger: 0.2,
+  delay: 0.3,
 });

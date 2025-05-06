@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact Me</title>
+    <link rel="stylesheet" href="contact.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <!-- GSAP CDN -->
+  </head>
+  <body>
+    <!-- Navbar -->
+    <header>
+      <nav class="navbar">
+        <h1 class="logo">Rohit</h1>
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="skills.html">Skills</a></li>
+          <li><a href="project.html">Projects</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
+    <section class="hero" id="hero">
+      <div class="hero-content">
+        <h2>Let's Connect!</h2>
+        <p>
+          Have a question or a query? Drop it below and I'll get back to you
+          promptly.
+        </p>
+        <form id="contact-form" class="query-form">
+          <div class="input-group">
+            <input
+              type="text"
+              name="name"
+              placeholder="Enter Your Name"
+              required
+              class="input-field"
+            />
+          </div>
+          <div class="input-group">
+            <input
+              type="email"
+              name="email"
+              placeholder="Enter Your Email"
+              required
+              class="input-field"
+            />
+          </div>
+          <div class="input-group">
+            <input
+              type="text"
+              name="subject"
+              placeholder="Enter The Subject"
+              required
+              class="input-field"
+            />
+          </div>
+
+          <div class="input-group">
+            <textarea
+              name="message"
+              placeholder="Enter Your Message Here..."
+              rows="5"
+              required
+              class="input-field"
+            ></textarea>
+          </div>
+          <button type="submit" class="submit-btn">Send Message</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <p>&copy; 2025 Rohit. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <!-- Load EmailJS SDK v4 -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script src="contact.js"></script>
+  </body>
+</html>

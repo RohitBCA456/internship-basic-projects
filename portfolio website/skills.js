@@ -3,15 +3,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Navbar animation (fade in from the top)
   gsap.from(".navbar", {
-    scrollTrigger: {
-      trigger: ".navbar",
-      start: "top top", // Trigger when the navbar comes into view
-      toggleActions: "play none none reverse", // Play when in view, reverse when out of view
-    },
-    duration: 1.5,
+    y: -100,
     opacity: 0,
-    y: -50,
+    duration: 1,
     ease: "power3.out",
+  });
+  
+  gsap.from(".nav-links li", {
+    y: -20,
+    opacity: 0,
+    duration: 1,
+    ease: "power2.out",
+    stagger: 0.2,
+    delay: 0.3,
   });
 
   // Animation for section titles (fade in from the top)

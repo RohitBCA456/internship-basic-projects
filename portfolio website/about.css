@@ -214,3 +214,152 @@ footer {
   margin-top: 3rem;
   font-size: 0.95rem;
 }
+
+/* Tablets and below */
+@media (max-width: 1024px) {
+  .about-card {
+    flex-direction: column;
+    padding: 3rem 1.5rem;
+  }
+
+  .about-image img {
+    width: 250px;
+  }
+
+  .about-text h2 {
+    font-size: 1.8rem;
+  }
+
+  .about-text h3 {
+    font-size: 1.2rem;
+  }
+
+  .education h2,
+  .certificates h2 {
+    font-size: 1.8rem;
+  }
+
+  .certificate-item {
+    padding: 1.2rem;
+  }
+}
+
+/* Mobile devices */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1rem;
+  }
+
+  .nav-links {
+    flex-direction: column;
+    width: 100%;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .logo {
+    font-size: 1.4rem;
+  }
+
+  .about-card {
+    padding: 2.5rem 1rem;
+    gap: 2rem;
+  }
+
+  .about-image img {
+    width: 200px;
+  }
+
+  .about-text h2 {
+    font-size: 1.6rem;
+  }
+
+  .about-text h3 {
+    font-size: 1.1rem;
+  }
+
+  .about-text p {
+    font-size: 0.95rem;
+  }
+
+  .social-icons i {
+    font-size: 1.3rem;
+  }
+
+  .education,
+  .certificates {
+    padding: 2rem 1rem;
+  }
+
+  .certificate-item {
+    padding: 1rem;
+  }
+
+  .certificate-header h3 {
+    font-size: 1.2rem;
+  }
+
+  .certificate-header p {
+    font-size: 0.95rem;
+  }
+
+  .certificate-img {
+    max-height: 400px;
+  }
+
+  footer {
+    font-size: 0.85rem;
+    padding: 1rem;
+  }
+}
+
+/* Small phones */
+@media (max-width: 480px) {
+  .about-text h2 {
+    font-size: 1.4rem;
+  }
+
+  .about-text h3 {
+    font-size: 1rem;
+  }
+
+  .about-text p {
+    font-size: 0.9rem;
+  }
+
+  .certificate-header h3 {
+    font-size: 1.1rem;
+  }
+
+  .certificate-header p {
+    font-size: 0.9rem;
+  }
+
+  .certificate-img {
+    max-height: 300px;
+  }
+
+  .toggle-btn {
+    font-size: 1rem;
+    top: 1rem;
+    right: 1rem;
+  }
+
+  .nav-links li a {
+    font-size: 0.95rem;
+  }
+
+  .logo {
+    font-size: 1.3rem;
+  }
+
+  .social-icons {
+    gap: 0.8rem;
+  }
+
+  .social-icons i {
+    font-size: 1.2rem;
+  }
+}
