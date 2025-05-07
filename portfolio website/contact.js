@@ -1,6 +1,6 @@
 // Initialize EmailJS
 (function () {
-  emailjs.init("PUBLIC_KEY");
+  emailjs.init("SYvJ6zV8DflxZ1DFm");
 })();
 
 document
@@ -8,8 +8,8 @@ document
   .addEventListener("submit", function (e) {
     e.preventDefault();
 
-    const serviceID = "SERVICE_ID"; 
-    const templateID = "TEMPLATE_ID";
+    const serviceID = "service_y6xcqls"; 
+    const templateID = "template_v0y5gaq";
     emailjs
       .sendForm(serviceID, templateID, this)
 
