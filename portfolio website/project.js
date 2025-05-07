@@ -35,3 +35,14 @@ window.addEventListener("DOMContentLoaded", () => {
     delay: 0.8,
   });
 });
+
+// Get the elements
+const hamburger = document.querySelector('.hamburger');
+const navLinksMobile = document.querySelector('.nav-links-mobile');
+
+// Add click event to the hamburger icon
+hamburger.addEventListener('click', () => {
+  // Toggle the 'open' class on both hamburger and mobile nav links
+  hamburger.classList.toggle('open');
+  navLinksMobile.classList.toggle('open');
+});

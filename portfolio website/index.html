@@ -12,8 +12,22 @@
     <!-- Navbar -->
     <header>
       <nav class="navbar">
-        <h1 class="logo">Rohit</h1>
+        <div class="logo">Rohit</div>
+        <div class="hamburger">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
         <ul class="nav-links">
+          <!-- Desktop links (hidden on mobile) -->
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="skills.html">Skills</a></li>
+          <li><a href="project.html">Projects</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <ul class="nav-links-mobile">
+          <!-- Mobile links (visible when hamburger is clicked) -->
           <li><a href="index.html">Home</a></li>
           <li><a href="about.html">About</a></li>
           <li><a href="skills.html">Skills</a></li>
@@ -110,7 +124,8 @@
         <div class="project-list">
           <div class="project-card">
             <img
-              src="https://i.pinimg.com/originals/c9/eb/6b/c9eb6b8d57ceffecb9846ec0379c66c6.gif" height="330px"
+              src="https://i.pinimg.com/originals/c9/eb/6b/c9eb6b8d57ceffecb9846ec0379c66c6.gif"
+              height="330px"
               alt="Blood App"
             />
             <h3>Blood Donation App</h3>
@@ -132,7 +147,8 @@
           </div>
           <div class="project-card">
             <img
-              src="https://msoft.af/wp-content/uploads/2024/12/E-commerce-Website.gif" height="325px"
+              src="https://msoft.af/wp-content/uploads/2024/12/E-commerce-Website.gif"
+              height="325px"
               alt="E-commerce"
             />
             <h3>E-commerce API</h3>
