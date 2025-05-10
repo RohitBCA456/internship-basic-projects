@@ -1,8 +1,9 @@
 import Router from "express";
-import { deleteRoom } from "../controller/room.controller.js";
+import { deleteRoom, getAllRooms } from "../controller/room.controller.js";
 
 const router = Router();
 
-router.route("/deleteroom").post(deleteRoom)
+router.route("/deleteroom").post(deleteRoom);
+router.route("/getallroom").get(getAllRooms);
 
-export default router
+export default router;

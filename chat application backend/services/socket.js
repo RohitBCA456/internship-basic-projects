@@ -23,16 +23,21 @@ export const setupSocket = (server) => {
     socket.on("send-message", async (data) => {
       const { username, roomId, message } = data;
 
-    // Save to DB
-    const newMessage = new Message({ roomId, sender: username, content: message });
-    await newMessage.save();
+      const newMessage = new Message({
+        roomId,
+        sender: username,
+        content: message,
+      });
+      await newMessage.save();
 
-    // Send to everyone in the room
-    io.to(roomId).emit("receive-message", {
-      username,
-      message,
-      timestamp: newMessage.timestamp,
-    });
+      io.to(roomId).emit("receive-message", {
+        username,
+        message,
+        timestamp: newMessage.timestamp,
+      });
+
+      // ✅ Emit update after message is sent
+      io.to(roomId).emit("message-updated");
     });
 
     socket.on("disconnect", () => {

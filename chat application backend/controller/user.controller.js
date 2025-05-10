@@ -38,7 +38,6 @@ const registerUser = async (req, res) => {
 const createRoom = async (req, res) => {
   try {
     const userId = req.user?._id;
-    console.log(userId);
     const user = await User.findById(userId);
     if (!user) {
       return res.status(400).json({ message: "Missing user." });
@@ -52,10 +51,12 @@ const createRoom = async (req, res) => {
     }
 
     const roomId = Math.floor(100000 + Math.random() * 900000);
-    const room = new Room({ roomId: roomId, creator: user._id });
+    const room = new Room({ roomId: roomId, creator: user._id, username: user.username });
     await room.save();
 
-    return res.status(201).json({ message: "Room created", roomId, user: user.username });
+    return res
+      .status(201)
+      .json({ message: "Room created", roomId, user: user.username });
   } catch (error) {
     console.error("Error in createRoom:", error);
     return res.status(500).json({ message: "Failed to create room." });
@@ -65,15 +66,15 @@ const createRoom = async (req, res) => {
 const joinRoom = async (req, res) => {
   try {
     const { username, roomId } = req.body;
-    if (!username || !roomId) {
+    if (!(username && roomId)) {
       return res.status(400).json({ message: "Missing credentials" });
     }
 
     // Check if username is taken (already active)
-    const user = await User.findOne({ username });
-    if (user) {
-      return res.status(400).json({ message: "Username already taken" });
-    }
+    // const user = await User.findOne({ username });
+    // if (user) {
+    //   return res.status(400).json({ message: "Username already taken" });
+    // }
 
     const room = await Room.findOne({ roomId });
     if (!room) {
@@ -86,5 +87,6 @@ const joinRoom = async (req, res) => {
     return res.status(500).json({ message: "Failed to join room." });
   }
 };
+
 
 export { registerUser, createRoom, joinRoom };

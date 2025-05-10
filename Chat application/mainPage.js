@@ -8,6 +8,8 @@ async function createRoom() {
 
     const createData = await createRes.json();
     if (!createRes.ok) return alert(createData.message);
+
+    // Save user info to localStorage
     localStorage.setItem(
       "user",
       JSON.stringify({
@@ -16,10 +18,15 @@ async function createRoom() {
         isOwner: true,
       })
     );
-    if (createRes.ok) {
+
+    // ✅ Immediately update the list of rooms shown in the corner
+    fetchRooms();
+
+    // Redirect after short delay (optional)
+    setTimeout(() => {
       window.location.href =
         "http://127.0.0.1:5500/Chat%20application/room.html";
-    }
+    }, 500);
   } catch (error) {
     console.log("Create Room Error:", error);
     alert("Something went wrong while creating room.");
@@ -27,23 +34,28 @@ async function createRoom() {
 }
 
 async function joinRoom() {
-  const username = localStorage.getItem("user");
+  const username = JSON.parse(localStorage.getItem("user"));
+  console.log(username)
+  if (!username) return alert("Username missing.");
   const roomId = document.getElementById("roomId").value.trim();
-  if (!(roomId && username)) return alert("Enter the Room ID");
+  if (!roomId) return alert("Enter the Room ID");
 
   try {
     const joinRes = await fetch("http://localhost:5000/user/joinroom", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
-      body: JSON.stringify({ roomId, username }),
+      body: JSON.stringify({ roomId, username}),
     });
 
     const joinData = await joinRes.json();
     if (!joinRes.ok) return alert(joinData.message);
 
     // ✅ Save the correct data to localStorage
-    localStorage.setItem("user", JSON.stringify({ username, roomId }));
+    localStorage.setItem(
+      "user",
+      JSON.stringify({ username, roomId, isOwner: false })
+    );
 
     window.location.href = `room.html?room=${roomId}`;
   } catch (error) {
@@ -51,3 +63,30 @@ async function joinRoom() {
     alert("Something went wrong while joining the room.");
   }
 }
+
+async function fetchRooms() {
+  try {
+    const res = await fetch("http://localhost:5000/room/getallroom");
+    const rooms = await res.json();
+
+    const roomContainer = document.getElementById("roomContainer");
+    roomContainer.innerHTML = "";
+
+    if (rooms.length === 0) {
+      roomContainer.innerHTML = "<li>No rooms available</li>";
+      return;
+    }
+
+    rooms.forEach((room) => {
+      const li = document.createElement("li");
+      li.textContent = `👤 ${room.username} — 🆔 ${room.roomId}`;
+      roomContainer.appendChild(li);
+    });
+  } catch (error) {
+    console.error("Error fetching rooms:", error);
+    document.getElementById("roomContainer").innerHTML =
+      "<li>Failed to load rooms</li>";
+  }
+}
+
+window.addEventListener("DOMContentLoaded", fetchRooms);

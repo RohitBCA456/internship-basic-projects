@@ -19,6 +19,10 @@ document.addEventListener("DOMContentLoaded", () => {
   socket.on("connect", () => console.log("Connected to server!"));
   socket.emit("join-room", roomId);
 
+  socket.on("message-updated", () => {
+    location.reload(); // Reload the page when message is edited, deleted, or sent
+  });
+
   socket.on("receive-message", ({ username, message, timestamp, _id }) => {
     displayMessage(username, message, timestamp, _id);
   });
@@ -74,13 +78,18 @@ function displayMessage(user, text, timestamp = null, messageId = null) {
 
   if (user === document.getElementById("username").textContent) {
     actionBtns.innerHTML += `
-      <button onclick="editMessage('${text.replace(/'/g, "\\'")}', this)" class="pop-up-btn">Edit</button>
+      <button onclick="editMessage('${text.replace(
+        /'/g,
+        "\\'"
+      )}', this)" class="pop-up-btn">Edit</button>
       <button onclick="deleteMessage(this)" class="pop-up-btn">Delete</button>
     `;
   }
 
   const isPinned = messageEl.classList.contains("pinned");
-  actionBtns.innerHTML += `<button onclick="togglePin(this)" class="pop-up-btn">${isPinned ? "Unpin" : "Pin"}</button>`;
+  actionBtns.innerHTML += `<button onclick="togglePin(this)" class="pop-up-btn">${
+    isPinned ? "Unpin" : "Pin"
+  }</button>`;
 
   content.appendChild(actionBtns); // Append buttons inline with content
 
@@ -104,7 +113,7 @@ window.editMessage = function (oldText, btn) {
   input.type = "text";
   input.value = oldText.trim(); // Trim to remove unwanted leading/trailing spaces
   input.className = "edit-input";
-  
+
   // Prevent the extra space by listening to the input field
   input.addEventListener("keydown", (e) => {
     if (e.key === "Enter") {
@@ -137,7 +146,6 @@ window.editMessage = function (oldText, btn) {
     document.querySelectorAll(".message-popup").forEach((p) => p.remove());
   }
 };
-
 
 window.deleteMessage = function (btn) {
   const messageCard = btn.closest(".message");
@@ -179,6 +187,7 @@ window.deleteRoom = function () {
       if (data.message === "Room deleted.") {
         localStorage.removeItem("user");
         window.location.href = "mainPage.html";
+        fetchRooms();
       } else {
         console.error("Error deleting room:", data.message);
       }
