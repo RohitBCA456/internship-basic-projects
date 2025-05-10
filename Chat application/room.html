@@ -4,10 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Chat Room</title>
+    <script src="http://localhost:5000/socket.io/socket.io.js"></script>
     <style>
       * {
         box-sizing: border-box;
       }
+
       body {
         margin: 0;
         font-family: "Segoe UI", sans-serif;
@@ -23,36 +25,79 @@
         padding: 15px 20px;
         display: flex;
         justify-content: space-between;
-        align-items: center;
+        align-items: flex-start;
         position: relative;
+        flex-wrap: wrap;
       }
 
-      .timestamp {
-        font-size: 0.75rem;
-        color: #ccc;
-        text-align: right;
-        margin-left: 10px;
+      .header-info {
+        flex: 1;
+        padding-right: 120px; /* prevent overlap with buttons */
+      }
+
+      .header-buttons {
+        display: flex;
+        gap: 10px;
+        position: absolute;
+        right: 20px;
+        top: 15px;
+        flex-wrap: wrap;
+      }
+
+      #delete-room-btn,
+      #leave-room-btn {
+        padding: 8px 14px;
+        border-radius: 6px;
+        border: none;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background 0.3s;
+        display: none;
+        white-space: nowrap;
       }
 
       #delete-room-btn {
         background: #ff4d4d;
-        border: none;
-        padding: 8px 14px;
-        border-radius: 6px;
-        cursor: pointer;
-        font-weight: bold;
         color: white;
-        transition: background 0.3s;
       }
 
       #delete-room-btn:hover {
         background: #e64545;
       }
 
+      #leave-room-btn {
+        background: #ffb84d;
+        color: #1e1e2f;
+      }
+
+      #leave-room-btn:hover {
+        background: #e6a440;
+      }
+
+      @media (max-width: 480px) {
+        .header-buttons {
+          flex-direction: column;
+          position: static;
+          margin-top: 10px;
+          align-items: flex-end;
+        }
+
+        header {
+          padding-bottom: 20px;
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .header-info {
+          padding-right: 0;
+        }
+      }
+
       .chat-container {
         flex: 1;
         padding: 15px 20px;
         overflow-y: auto;
+        position: relative; /* Add this line */
         display: flex;
         flex-direction: column;
         gap: 10px;
@@ -64,15 +109,15 @@
         border-radius: 10px;
         margin: 12px 0;
         box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
-        display: inline-block;
         max-width: 90%;
-        position: relative;
+        position: relative; /* important */
         transition: all 0.3s ease;
         cursor: pointer;
         display: flex;
         justify-content: space-between;
         align-items: center;
         gap: 10px;
+        z-index: 1; /* ensures stacking context */
       }
 
       .message:hover {
@@ -80,67 +125,95 @@
       }
 
       .message.pinned {
-        background: #ffeb3b; /* Highlight color for pinned */
+        background: #fffbcc;
         color: #1e1e2f;
-        color: #1e1e2f; /* Text color for pinned messages */
+        font-weight: bold;
+        border: 2px solid #ffc107;
       }
 
-      .message.editing {
-        border: none !important;
-        box-shadow: none !important;
+      .message.pinned .message-content span,
+      .message.pinned strong {
+        color: #4fffb6;
       }
 
-      .message .message-content[contenteditable="true"] {
-        outline: none !important;
-        border: none !important;
-        background: transparent;
+      .pop-up-btn {
+        padding: 8px 16px;
+        border-radius: 8px;
+        background-color: #6c63ff;
+        color: #fff;
+        font-weight: bold;
+        cursor: pointer;
+        border: none;
+        outline: none;
+        transition: background-color 0.3s, transform 0.3s;
+        font-size: 14px;
+        display: inline-block;
+        margin: 0 5px;
       }
 
-      .popup-card {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        margin-top: 8px;
-        background: #1e1e2f;
-        padding: 10px 12px;
-        border-radius: 10px;
-        display: none;
-        flex-direction: column;
-        gap: 8px;
-        box-shadow: 0 0 12px rgba(0, 0, 0, 0.4);
-        z-index: 10;
-        width: 130px;
+      .pop-up-btn:hover {
+        background-color: #574fd6;
+        transform: translateY(-2px);
       }
 
-      .popup-card button {
+      .pop-up-btn:active {
+        background-color: #453bb5;
+        transform: translateY(0);
+      }
+
+      .pop-up-btn:focus {
+        outline: 2px solid #c48a00;
+        outline-offset: 2px;
+      }
+
+      .pop-up-btn.edit-btn {
+        background-color: #ffb84d;
+        color: #1e1e2f;
+      }
+
+      .pop-up-btn.edit-btn:hover {
+        background-color: #e6a440;
+      }
+
+      .pop-up-btn.delete-btn {
+        background-color: #ff4d4d;
+        color: #fff;
+      }
+
+      .pop-up-btn.delete-btn:hover {
+        background-color: #e64545;
+      }
+
+      .pop-up-btn.pin-btn {
+        background-color: #fffbcc;
+        color: #1e1e2f;
+      }
+
+      .pop-up-btn.pin-btn:hover {
+        background-color: #e6a440;
+      }
+
+      .pop-up-btn:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+      }
+
+      .message.mine {
+        align-self: flex-end;
         background: #6c63ff;
-        border: none;
-        padding: 8px 10px;
-        border-radius: 6px;
         color: white;
-        font-size: 0.9rem;
-        cursor: pointer;
-        transition: background 0.3s;
       }
 
-      .popup-card button:hover {
-        background: #574fd6;
+      .message.other {
+        align-self: flex-start;
+        background: #2d2d3f;
       }
 
-      .controls {
-        position: absolute;
-        top: 6px;
-        right: 6px;
-        display: flex;
-        gap: 6px;
-      }
-
-      .controls button {
-        background: transparent;
-        border: none;
-        color: white;
-        cursor: pointer;
-        font-size: 1rem;
+      .timestamp {
+        font-size: 0.75rem;
+        color: #ccc;
+        text-align: right;
+        margin-left: 10px;
       }
 
       .input-box {
@@ -148,6 +221,18 @@
         padding: 15px;
         background: #1e1e2f;
         gap: 10px;
+      }
+      .edit-input {
+        display: inline;
+        background: transparent;
+        border: none;
+        outline: none;
+        color: inherit;
+        font: inherit;
+        padding: 0;
+        margin: 0;
+        width: auto;
+        min-width: 100px;
       }
 
       .input-box input {
@@ -169,28 +254,20 @@
       .input-box button:hover {
         background: #574fd6;
       }
-
-      .message.mine {
-        align-self: flex-end;
-        background: #6c63ff;
-        color: white;
-      }
-
-      .message.other {
-        align-self: flex-start;
-        background: #2d2d3f;
-      }
     </style>
   </head>
   <body>
     <header>
-      <div>
+      <div class="header-info">
         <strong>Room:</strong> <span id="room-id"></span> |
         <strong>User:</strong> <span id="username"></span>
       </div>
-      <button onclick="deleteRoom()" id="delete-room-btn" style="display: none">
-        🗑️ Delete Room
-      </button>
+      <div class="header-buttons">
+        <button onclick="deleteRoom()" id="delete-room-btn">
+          🗑️ Delete Room
+        </button>
+        <button onclick="leaveRoom()" id="leave-room-btn">🚪 Leave Room</button>
+      </div>
     </header>
 
     <div class="chat-container" id="chat"></div>
@@ -200,152 +277,6 @@
       <button onclick="sendMessage()">Send</button>
     </div>
 
-    <script>
-      const username = localStorage.getItem("username");
-      const roomId = new URLSearchParams(location.search).get("room");
-      const socket = new WebSocket("ws://localhost:3000");
-
-      document.getElementById("room-id").textContent = roomId;
-      document.getElementById("username").textContent = username;
-
-      const rooms = JSON.parse(localStorage.getItem("rooms") || "[]");
-      const isCreator = rooms.find((r) => r.id == roomId)?.creator === username;
-      if (isCreator)
-        document.getElementById("delete-room-btn").style.display = "block";
-
-      socket.onopen = () => {
-        socket.send(JSON.stringify({ type: "join", username }));
-      };
-
-      socket.onmessage = (event) => {
-        const msg = JSON.parse(event.data);
-        displayMessage(msg.username, msg.text);
-      };
-
-      function sendMessage() {
-        const input = document.getElementById("message");
-        const text = input.value.trim();
-        if (!text) return;
-        socket.send(JSON.stringify({ type: "message", text }));
-        input.value = "";
-      }
-
-      function displayMessage(user, text) {
-        const messageEl = document.createElement("div");
-        messageEl.className = `message ${user === username ? "mine" : "other"}`;
-
-        const now = new Date();
-        const time = now.toLocaleTimeString([], {
-          hour: "2-digit",
-          minute: "2-digit",
-        });
-
-        const messageContent = document.createElement("div");
-        messageContent.className = "message-content";
-
-        const p = document.createElement("p");
-        p.className = "text";
-        p.innerHTML = `<strong>${user}:</strong> <span>${text}</span>`;
-
-        const timeEl = document.createElement("div");
-        timeEl.className = "timestamp";
-        timeEl.textContent = time;
-
-        messageContent.appendChild(p);
-
-        const popup = document.createElement("div");
-        popup.className = "popup-card";
-
-        if (user === username) {
-          const editBtn = document.createElement("button");
-          editBtn.textContent = "Edit";
-          editBtn.onclick = () => {
-            const span = p.querySelector("span");
-            span.contentEditable = true;
-            span.focus();
-            messageEl.classList.add("editing");
-            popup.style.display = "none";
-
-            // Place cursor at the end of the text
-            const range = document.createRange();
-            range.selectNodeContents(span);
-            range.collapse(false); // false = to the end
-            const selection = window.getSelection();
-            selection.removeAllRanges();
-            selection.addRange(range);
-
-            // Remove browser outlines
-            span.style.outline = "none";
-            span.style.border = "none";
-
-            // Press Enter to finish editing
-            span.onkeydown = (e) => {
-              if (e.key === "Enter") {
-                e.preventDefault();
-                span.contentEditable = false;
-                span.onkeydown = null;
-                messageEl.classList.remove("editing");
-              }
-            };
-          };
-
-          const delBtn = document.createElement("button");
-          delBtn.textContent = "Delete";
-          delBtn.onclick = () => {
-            messageEl.remove();
-          };
-
-          // ✅ Fix: Create the pin button before using it
-          const pinBtn = document.createElement("button");
-          pinBtn.textContent = "Pin";
-          pinBtn.onclick = () => {
-            const isPinned = messageEl.classList.toggle("pinned");
-            pinBtn.textContent = isPinned ? "Unpin" : "Pin";
-
-            const backgroundColor = isPinned ? "#ffeb3b" : "#2d2d3f";
-            const textColor = isPinned ? "#1e1e2f" : "#fff";
-            messageEl.style.background = backgroundColor;
-            messageEl.style.color = textColor;
-
-            timeEl.style.color = textColor;
-
-            popup.style.display = "none";
-          };
-
-          popup.append(editBtn, delBtn, pinBtn);
-        }
-
-        messageEl.appendChild(messageContent);
-        messageEl.appendChild(timeEl);
-        messageEl.appendChild(popup);
-
-        if (user === username) {
-          messageEl.onclick = (e) => {
-            if (e.target.closest(".popup-card")) return;
-            document
-              .querySelectorAll(".popup-card")
-              .forEach((el) => (el.style.display = "none"));
-            popup.style.display =
-              popup.style.display === "flex" ? "none" : "flex";
-          };
-        }
-
-        document.getElementById("chat").appendChild(messageEl);
-        messageEl.scrollIntoView({ behavior: "smooth" });
-      }
-
-      function deleteRoom() {
-        const rooms = JSON.parse(localStorage.getItem("rooms") || "[]").filter(
-          (r) => r.id != roomId
-        );
-        const users = JSON.parse(
-          localStorage.getItem("activeUsers") || "[]"
-        ).filter((u) => u !== username);
-        localStorage.setItem("rooms", JSON.stringify(rooms));
-        localStorage.setItem("activeUsers", JSON.stringify(users));
-        alert("Room deleted!");
-        window.location.href = "index.html";
-      }
-    </script>
+    <script src="room.js"></script>
   </body>
 </html>

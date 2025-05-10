@@ -1,4 +1,5 @@
 import { User } from "../model/user.model.js";
+import { Room } from "../model/room.model.js";
 const registerUser = async (req, res) => {
   try {
     const { username } = req.body;
@@ -34,6 +35,56 @@ const registerUser = async (req, res) => {
   }
 };
 
+const createRoom = async (req, res) => {
+  try {
+    const userId = req.user?._id;
+    console.log(userId);
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(400).json({ message: "Missing user." });
+    }
 
+    const existingRoom = await Room.findOne({ creator: user._id });
+    if (existingRoom) {
+      return res
+        .status(400)
+        .json({ message: "This username has already created a room." });
+    }
 
-export { registerUser };
+    const roomId = Math.floor(100000 + Math.random() * 900000);
+    const room = new Room({ roomId: roomId, creator: user._id });
+    await room.save();
+
+    return res.status(201).json({ message: "Room created", roomId, user: user.username });
+  } catch (error) {
+    console.error("Error in createRoom:", error);
+    return res.status(500).json({ message: "Failed to create room." });
+  }
+};
+
+const joinRoom = async (req, res) => {
+  try {
+    const { username, roomId } = req.body;
+    if (!username || !roomId) {
+      return res.status(400).json({ message: "Missing credentials" });
+    }
+
+    // Check if username is taken (already active)
+    const user = await User.findOne({ username });
+    if (user) {
+      return res.status(400).json({ message: "Username already taken" });
+    }
+
+    const room = await Room.findOne({ roomId });
+    if (!room) {
+      return res.status(404).json({ message: "Room not found" });
+    }
+
+    return res.status(200).json({ message: "Joined room", roomId });
+  } catch (error) {
+    console.error("Error in joinRoom:", error);
+    return res.status(500).json({ message: "Failed to join room." });
+  }
+};
+
+export { registerUser, createRoom, joinRoom };

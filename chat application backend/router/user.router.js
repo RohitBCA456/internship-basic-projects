@@ -1,8 +1,10 @@
 import { Router } from "express";
-import { registerUser } from "../controller/user.controller.js";
+import { createRoom, joinRoom, registerUser } from "../controller/user.controller.js";
+import { authMiddleware } from "../middleware/Auth.js";
 
 const router = Router();
 
 router.route("/register").post(registerUser);
-
+router.route("/createroom").get(authMiddleware, createRoom);
+router.route("/joinroom").post(joinRoom);
 export default router;
