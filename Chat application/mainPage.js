@@ -34,9 +34,6 @@ async function createRoom() {
 }
 
 async function joinRoom() {
-  const username = JSON.parse(localStorage.getItem("user"));
-  console.log(username)
-  if (!username) return alert("Username missing.");
   const roomId = document.getElementById("roomId").value.trim();
   if (!roomId) return alert("Enter the Room ID");
 
@@ -45,12 +42,13 @@ async function joinRoom() {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
-      body: JSON.stringify({ roomId, username}),
+      body: JSON.stringify({ roomId }),
     });
 
     const joinData = await joinRes.json();
+    console.log(joinData);
+    const username = joinData.user;
     if (!joinRes.ok) return alert(joinData.message);
-
     // ✅ Save the correct data to localStorage
     localStorage.setItem(
       "user",

@@ -2,15 +2,21 @@ import { Room } from "../model/room.model.js";
 import { User } from "../model/user.model.js";
 const deleteRoom = async (req, res) => {
   try {
-    const { roomId, username } = req.body; // Get the room ID from the request body
-    console.log(roomId, username);
+    const userId = req.user?._id;
+    const user = await User.findById(userId);
+    console.log(user);
+    if (!user) {
+      return res
+        .status(404)
+        .json({ message: "User not found for deleting the room." });
+    }
+    const userRoom = await Room.findOne({ username: user.username });
+    console.log(userRoom);
     // Find the room and delete it
-    const room = await Room.findOneAndDelete(roomId);
+    const room = await Room.findOneAndDelete({ _id: userRoom._id });
     if (!room) {
       return res.status(404).json({ message: "Room not found." });
     }
-
-    const user = await User.findOneAndDelete(username);
     if (!user) {
       return res
         .status(404)
@@ -23,19 +29,21 @@ const deleteRoom = async (req, res) => {
   }
 };
 
-const leaveRoom = async(req, res) => {
+const leaveRoom = async (req, res) => {
   try {
     const username = req.body;
     console.log(username);
     const user = await User.findOneAndDelete(username);
-    if(!user) {
-      return res.status(404).json({message: "User not found."})
+    if (!user) {
+      return res.status(404).json({ message: "User not found." });
     }
-    return res.statsu(200).json({message: "User left the room successfully."})
+    return res
+      .statsu(200)
+      .json({ message: "User left the room successfully." });
   } catch (error) {
-    return res.status(500).json({message: "Error while leaving the room."})
+    return res.status(500).json({ message: "Error while leaving the room." });
   }
-}
+};
 
 const getAllRooms = async (req, res) => {
   try {

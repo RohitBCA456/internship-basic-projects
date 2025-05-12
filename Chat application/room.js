@@ -174,19 +174,19 @@ window.deleteMessage = function (btn) {
 window.deleteRoom = function () {
   if (!confirm("Are you sure you want to delete the room?")) return;
 
-  const user = JSON.parse(localStorage.getItem("user"));
-  if (!user?.roomId) return console.error("Room ID not found in localStorage.");
+  // const user = JSON.parse(localStorage.getItem("user"));
+  // if (!user?.roomId) return console.error("Room ID not found in localStorage.");
 
   fetch("http://localhost:5000/room/deleteroom", {
-    method: "POST",
+    method: "GET",
+    credentials: "include",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ roomId: user.roomId, username: user.username }),
   })
     .then((res) => res.json())
     .then((data) => {
       if (data.message === "Room deleted.") {
         localStorage.removeItem("user");
-        window.location.href = "index.html";
+        window.location.href = "mainPage.html";
         fetchRooms();
       } else {
         console.error("Error deleting room:", data.message);
@@ -198,15 +198,15 @@ window.deleteRoom = function () {
 window.leaveRoom = function () {
   if (confirm("Are you sure you want to leave the room?")) {
     const user = JSON.parse(localStorage.getItem("user"));
-    if (!user?.roomId)
-      return console.error("Room ID not found in localStorage.");
-    fetch("http://localhost:5000/room/leaveroom", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username: user.username }),
-    });
+    // if (!user?.roomId)
+    //   return console.error("Room ID not found in localStorage.");
+    // fetch("http://localhost:5000/room/leaveroom", {
+    //   method: "POST",
+    //   headers: { "Content-Type": "application/json" },
+    //   body: JSON.stringify({ username: user.username }),
+    // });
     localStorage.removeItem("user");
-    window.location.href = "index.html";
+    window.location.href = "mainPage.html";
   }
 };
 
