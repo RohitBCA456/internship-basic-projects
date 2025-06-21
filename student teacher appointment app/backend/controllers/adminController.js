@@ -36,8 +36,13 @@ const loginAdmin = async (req, res) => {
 
     const token = admin.generateAccessToken();
     admin.accessToken = token;
-
-    return res.status(200).json({
+    const options = {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+      path: "/",
+    };
+    return res.status(200).cookie("accessToken", token, options).json({
       success: true,
       message: "Login successful",
     });
@@ -137,7 +142,7 @@ const getAllStudents = async (req, res) => {
 const deleteTeacher = async (req, res) => {
   try {
     const { teacherId } = req.params;
-    
+
     if (!teacherId) {
       return res.status(400).json({
         success: false,
@@ -241,6 +246,46 @@ const addStudent = async (req, res) => {
   }
 };
 
+const logoutAdmin = async (req, res) => {
+  try {
+    const userId = req.user?._id;
+
+    if (!userId) {
+      return res.status(400).json({
+        success: false,
+        message: "ID is required for logout",
+      });
+    }
+
+    const admin = await User.findOne({ _id: userId, role: "admin" });
+    if (!admin) {
+      return res.status(404).json({
+        success: false,
+        message: "Admin not found",
+      });
+    }
+
+    admin.accessToken = null;
+    await admin.save();
+    const options = {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+      path: "/",
+    };
+    return res.status(200).clearCookie("accessToken", options).json({
+      success: true,
+      message: "Logout successful",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error while logging out admin",
+      error: error.message,
+    });
+  }
+};
+
 export {
   loginAdmin,
   addTeacher,
@@ -249,4 +294,5 @@ export {
   deleteTeacher,
   deleteStudent,
   addStudent,
+  logoutAdmin,
 };

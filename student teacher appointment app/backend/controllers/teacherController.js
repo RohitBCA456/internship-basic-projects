@@ -67,13 +67,13 @@ const loginTeacher = async (req, res) => {
     const accessToken = teacher.generateAccessToken();
     teacher.accessToken = accessToken;
     await teacher.save();
-    res.cookie("accessToken", accessToken, {
+    const options = {
       httpOnly: true,
       secure: true,
       sameSite: "none",
       path: "/",
-    });
-    return res.status(200).json({
+    };
+    return res.status(200).cookie("accessToken", accessToken, options).json({
       success: true,
       message: "Login successful",
     });
@@ -132,4 +132,33 @@ const appointmentController = async (req, res) => {
   }
 };
 
-export { registerTeacher, loginTeacher, appointmentController };
+const logoutTeacher = async (req, res) => {
+  try {
+    const teacherId = req.user?._id;
+    if (!teacherId) {
+      return res.status(401).json({
+        success: false,
+        message: "Unauthorized: No teacher logged in",
+      });
+    }
+    await User.findByIdAndUpdate(teacherId, { $unset: { accessToken: "" } });
+    const options = {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+      path: "/",
+    };
+    return res.status(200).clearCookie("accessToken", options).json({
+      success: true,
+      message: "Logout successful",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error while logging out teacher",
+      error: error.message,
+    });
+  }
+};
+
+export { registerTeacher, loginTeacher, appointmentController, logoutTeacher };

@@ -30,4 +30,22 @@ const sendAppointment = async (req, res) => {
   }
 };
 
-export { sendAppointment };
+const seeAppointments = async (req, res) => {
+  const userId = req.user?._id;
+  try {
+  const appointments = await Appointment.find({ studentId: req.user._id })
+  .populate("teacherId", "name email department"); // ✅ only what you need
+    return res.status(200).json({
+      success: true,
+      appointments,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error while fetching appointments",
+      error: error.message,
+    });
+  }
+};
+
+export { sendAppointment, seeAppointments };
