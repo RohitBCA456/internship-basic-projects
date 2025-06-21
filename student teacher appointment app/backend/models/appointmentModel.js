@@ -4,21 +4,19 @@ const appointmentSchema = new Schema(
   {
           studentId: {
             type: Schema.Types.ObjectId,
-            ref: "Student",
+            ref: "User",
             required: true,
           },
           teacherId: {
             type: Schema.Types.ObjectId,
-            ref: "Teacher",
+            ref: "User",
             required: true,
           },
           date: {
             type: Date,
-            required: true,
           },
           timeSlot: {
             type: String,
-            required: true,
           },
           status: {
             type: String,
@@ -29,4 +27,4 @@ const appointmentSchema = new Schema(
   { timestamps: true }
 );
 
-const Appointment = mongoose.model("Appointment", appointmentSchema);
+export const Appointment = mongoose.model("Appointment", appointmentSchema);

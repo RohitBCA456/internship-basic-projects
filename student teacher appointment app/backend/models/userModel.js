@@ -21,6 +21,18 @@ const userSchema = new Schema(
       type: String,
       enum: ["student", "teacher", "admin"],
     },
+    department: {
+      type: String,
+      required: function () {
+        return this.role === "student" || this.role === "teacher";
+      },
+    },
+    subject: {
+      type: String,
+      required: function () {
+        return this.role === "teacher";
+      },
+    },
     accessToken: {
       type: String,
     },

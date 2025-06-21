@@ -1,9 +1,10 @@
 import { User } from "../models/userModel.js";
+import { Appointment } from "../models/appointmentModel.js";
 
 const registerStudent = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
-    if ([name, email, password].some((field) => field.trim() === "")) {
+    const { name, email, password, department } = req.body;
+    if ([name, email, password, department].some((field) => field.trim() === "")) {
       return res.status(400).json({
         success: false,
         message: "All fields are required",
@@ -19,6 +20,7 @@ const registerStudent = async (req, res) => {
       name,
       email,
       password,
+      department,
       role: "student",
     });
     return res.status(201).json({
@@ -90,7 +92,7 @@ const searchTeacher = async (req, res) => {
     }
     const teachers = await User.find({
       role: "teacher",
-      subjects: { $in: [subject] },
+      subject: { $in: [subject] },
     }).select("-password -accessToken");
     if (teachers.length === 0) {
       return res.status(404).json({
