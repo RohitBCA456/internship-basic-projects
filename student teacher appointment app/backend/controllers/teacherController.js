@@ -92,7 +92,7 @@ const appointmentController = async (req, res) => {
     const { appoitmentStatus, studentId, date, time } = req.body;
 
     if (appoitmentStatus === false) {
-      return res.status(400).json({
+      res.status(400).json({
         success: false,
         message: "Appointment is cancelled by teacher.",
       });
