@@ -34,13 +34,18 @@ main {
   font-size: 1rem;
 }
 
+.approved-btn {
+  background-color: #2ecc71;
+  color: white;
+}
+
 .primary-btn {
   background-color: #2980b9;
   color: white;
 }
 
 .secondary-btn {
-  background-color: #7f8c8d;
+  background-color:rgb(241, 53, 53);
   color: white;
 }
 
