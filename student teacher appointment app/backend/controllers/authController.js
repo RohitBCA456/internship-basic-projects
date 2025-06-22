@@ -17,4 +17,37 @@ const CurrentUserRole = async (req, res) => {
   });
 };
 
-export { CurrentUserRole };
+const getCurrentUser = async (req, res) => {
+  try {
+    const userId = req.user?._id;
+    if (!userId) {
+      return res.status(401).json({
+        success: false,
+        message: "Unauthorized. No user ID found in token.",
+      });
+    }
+
+    const user = await User.findById(userId).select("-password"); // Exclude password
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found.",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "User fetched successfully.",
+      user,
+    });
+  } catch (err) {
+    console.error("Error in getCurrentUser:", err);
+    res.status(500).json({
+      success: false,
+      message: "Server error.",
+    });
+  }
+};
+
+export { CurrentUserRole, getCurrentUser };

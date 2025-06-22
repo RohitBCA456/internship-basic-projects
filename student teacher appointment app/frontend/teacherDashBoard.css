@@ -39,14 +39,25 @@ main {
   color: white;
 }
 
+.secondary-btn {
+  background-color: #7f8c8d;
+  color: white;
+}
+
 .logout-btn {
   background-color: #e74c3c;
   color: white;
 }
 
+.table-responsive {
+  overflow-x: auto;
+  width: 100%;
+}
+
 .styled-table {
   width: 100%;
   border-collapse: collapse;
+  min-width: 600px; /* Ensures scroll on small screens */
 }
 
 .styled-table th,
@@ -79,21 +90,11 @@ main {
 }
 
 @media (max-width: 768px) {
-  .styled-table,
-  .styled-table thead,
-  .styled-table tbody,
-  .styled-table th,
-  .styled-table td {
-    display: block;
+  .styled-table {
+    min-width: unset;
   }
 
-  .styled-table th {
-    display: none;
-  }
-
-  .styled-table td {
-    border: none;
-    padding: 1rem;
-    position: relative;
+  .table-responsive {
+    overflow-x: auto;
   }
 }

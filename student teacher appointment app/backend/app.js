@@ -4,9 +4,13 @@ import studentRouter from "./routers/studentRouter.js";
 import appointmentRouter from "./routers/appointmentRouter.js";
 import teacherRouter from "./routers/teacherRouter.js";
 import adminRouter from "./routers/adminRouter.js";
-import authRouter from "./routers/authRouter.js"
+import authRouter from "./routers/authRouter.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import http from "http";
+import { Server } from "socket.io";
+import { setupSocketHandlers } from "./utils/Message.js";
+import messageRouter from "./routers/messageRouter.js";
 
 dotenv.config({ path: "./.env" });
 
@@ -30,5 +34,14 @@ app.use("/appointment", appointmentRouter);
 app.use("/teacher", teacherRouter);
 app.use("/admin", adminRouter);
 app.use("/auth", authRouter);
+app.use("/message", messageRouter);
 
-export { app };
+const server = http.createServer(app);
+const io = new Server(server, { cors: { origin: "*" } });
+
+const userSockets = setupSocketHandlers(io);
+
+app.set("io", io);
+app.set("userSockets", userSockets);
+
+export { app, server };

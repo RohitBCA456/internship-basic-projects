@@ -208,3 +208,30 @@ async function deleteAppointment(appointmentId) {
     console.error("Error while deleting appointment:", err.message);
   }
 }
+
+async function sendMessage(teacherId) {
+  try {
+    const response = await fetch("http://localhost:2000/auth/getCurrentUser", {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include", // Needed for session cookies
+    });
+
+    const result = await response.json();
+
+    console.log("Current user data:", result);
+
+    const studentId = result.user?._id;
+
+    if (!studentId) {
+      alert("Student not logged in!");
+      return;
+    }
+
+    const roomUrl = `chatRoom.html?teacherId=${teacherId}&studentId=${studentId}`;
+    window.location.href = roomUrl;
+  } catch (error) {
+    console.error("Error in sendMessage:", error);
+    alert("Could not start chat. Please try logging in again.");
+  }
+}

@@ -223,3 +223,70 @@ async function fetchApprovedAppointments() {
     alert("An error occurred while loading approved appointments.");
   }
 }
+
+async function fetchChatUsers() {
+  const chatSection = document.getElementById("chatSection");
+  const chatBody = document.getElementById("chatBody");
+
+  // Hide others
+  document.getElementById("appointmentSection").style.display = "none";
+  document.getElementById("approvedSection").style.display = "none";
+
+  chatSection.style.display = "block";
+  chatBody.innerHTML = "";
+
+  try {
+    const response = await fetch("http://localhost:2000/message/getStudentMessages", {
+      method: "GET",
+      credentials: "include",
+    });
+
+    const data = await response.json();
+
+    if (response.ok && Array.isArray(data.students)) {
+      if (data.students.length === 0) {
+        chatBody.innerHTML = `<tr><td colspan="3">No students to chat with.</td></tr>`;
+        return;
+      }
+
+      data.students.forEach((student) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${student.name || "Unknown"}</td>
+          <td>${student.email || "N/A"}</td>
+          <td><button class="btn primary-btn" onclick="goToChat('${student._id}')">Chat</button></td>
+        `;
+        chatBody.appendChild(row);
+      });
+    } else {
+      alert(data.message || "Failed to load chat users.");
+    }
+  } catch (err) {
+    console.error("Error fetching chat users:", err);
+    alert("Something went wrong while fetching messages.");
+  }
+}
+
+async function goToChat(studentId) {
+  try {
+    const response = await fetch("http://localhost:2000/auth/getCurrentUser", {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+    });
+
+    const result = await response.json();
+    const teacherId = result.user?._id;
+
+    if (!teacherId) {
+      alert("Teacher not logged in!");
+      return;
+    }
+
+    const url = `chatRoom.html?teacherId=${teacherId}&studentId=${studentId}`;
+    window.location.href = url;
+  } catch (err) {
+    console.error("Error redirecting to chat:", err);
+    alert("Could not open chat.");
+  }
+}
