@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Teacher Dashboard</title>
+    <link rel="stylesheet" href="teacherDashboard.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <header>
+      <h1>Welcome, Teacher</h1>
+      <button class="btn logout-btn" onclick="logout();">Logout</button>
+    </header>
+
+    <main>
+      <!-- Action Section -->
+      <section class="card">
+        <h2>Manage Appointment Requests</h2>
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+          <button class="btn primary-btn" onclick="fetchAppointments()">
+            See Requested Appointments
+          </button>
+          <button class="btn secondary-btn" onclick="fetchApprovedAppointments()">
+            See Approved Appointments
+          </button>
+        </div>
+      </section>
+
+      <!-- Pending Appointment Table -->
+      <section id="appointmentSection" class="card" style="display: none">
+        <h3>Pending Appointments</h3>
+        <table class="styled-table">
+          <thead>
+            <tr>
+              <th>Student Name</th>
+              <th>Subject</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="appointmentBody"></tbody>
+        </table>
+      </section>
+
+      <!-- Approved Appointment Table -->
+      <section id="approvedSection" class="card" style="display: none">
+        <h3>Approved Appointments</h3>
+        <table class="styled-table">
+          <thead>
+            <tr>
+              <th>Student Name</th>
+              <th>Subject</th>
+              <th>Date</th>
+              <th>Time</th>
+            </tr>
+          </thead>
+          <tbody id="approvedBody"></tbody>
+        </table>
+      </section>
+    </main>
+
+    <script src="teacherDashboard.js"></script>
+  </body>
+</html>

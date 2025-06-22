@@ -91,11 +91,17 @@ const appointmentController = async (req, res) => {
     const teacherId = req.user?._id;
     const { appoitmentStatus, studentId, date, time } = req.body;
 
-    if (appoitmentStatus === false) {
-      res.status(400).json({
-        success: false,
-        message: "Appointment is cancelled by teacher.",
-      });
+    // Status value: "confirmed" or "rejected"
+    const newStatus = appoitmentStatus ? "confirmed" : "rejected";
+
+    const updateData = {
+      status: newStatus,
+    };
+
+    // Only add date and time if confirming
+    if (appoitmentStatus) {
+      updateData.date = date;
+      updateData.timeSlot = time;
     }
 
     const appointment = await Appointment.findOneAndUpdate(
@@ -104,11 +110,7 @@ const appointmentController = async (req, res) => {
         studentId: studentId,
         status: "pending",
       },
-      {
-        status: appoitmentStatus ? "confirmed" : "cancelled",
-        date: date,
-        timeSlot: time,
-      },
+      updateData,
       { new: true }
     );
 
@@ -121,7 +123,7 @@ const appointmentController = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      message: "Appointment processed successfully",
+      message: `Appointment ${newStatus} successfully`,
     });
   } catch (error) {
     return res.status(500).json({
@@ -131,6 +133,7 @@ const appointmentController = async (req, res) => {
     });
   }
 };
+
 
 const logoutTeacher = async (req, res) => {
   try {

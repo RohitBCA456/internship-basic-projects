@@ -11,7 +11,7 @@ const router = Router();
 
 router.route("/registerTeacher").post(registerTeacher);
 router.route("/loginTeacher").post(loginTeacher);
-router.route("/appointmentController").post(verifyJWT, appointmentController);
+router.route("/appointmentController").put(verifyJWT, appointmentController);
 router.route("/logoutTeacher").post(verifyJWT, logoutTeacher);
 
 export default router;

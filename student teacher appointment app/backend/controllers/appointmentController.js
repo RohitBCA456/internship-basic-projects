@@ -32,9 +32,28 @@ const sendAppointment = async (req, res) => {
 
 const seeAppointments = async (req, res) => {
   const userId = req.user?._id;
+  const role = req.user?.role;
+
   try {
-  const appointments = await Appointment.find({ studentId: req.user._id })
-  .populate("teacherId", "name email department"); // ✅ only what you need
+    let appointments;
+
+    if (role === "student") {
+      // Show appointments requested by this student
+      appointments = await Appointment.find({ studentId: userId })
+        .populate("teacherId", "name email department")
+        .populate("studentId", "name email");
+    } else if (role === "teacher") {
+      // Show all appointments requested to this teacher (pending + confirmed + rejected)
+      appointments = await Appointment.find({ teacherId: userId })
+        .populate("teacherId", "name email department")
+        .populate("studentId", "name email");
+    } else {
+      return res.status(403).json({
+        success: false,
+        message: "Unauthorized role",
+      });
+    }
+
     return res.status(200).json({
       success: true,
       appointments,
@@ -48,4 +67,28 @@ const seeAppointments = async (req, res) => {
   }
 };
 
-export { sendAppointment, seeAppointments };
+
+const deleteAppointment = async (req, res) => {
+  const { appointmentId } = req.body;
+  try {
+    const appointment = await Appointment.findByIdAndDelete(appointmentId);
+    if (!appointment) {
+      return res.status(404).json({
+        success: false,
+        message: "Appointment not found",
+      });
+    }
+    return res.status(200).json({
+      success: true,
+      message: "Appointment deleted successfully",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error while deleting appointment",
+      error: error.message,
+    });
+  }
+};
+
+export { sendAppointment, seeAppointments, deleteAppointment };

@@ -31,10 +31,7 @@
       <!-- Action Buttons -->
       <section class="card action-buttons">
         <button class="btn secondary-btn" onclick="seeAppointments()">
-          See Appointment Requests
-        </button>
-        <button class="btn success-btn" onclick="approvedAppointments()">
-          Approved Appointments
+          See Appointments Status
         </button>
       </section>
 
@@ -42,10 +39,15 @@
       <section id="results" class="card" style="display: none">
         <h3>Results will appear here...</h3>
       </section>
+      <!-- Add this inside <main>, replacing old resultsContainer and appointmentsContainer -->
+      <section id="dynamicSection" class="card" style="display: none">
+        <h3 id="dynamicTitle"></h3>
+        <table id="dynamicTable" class="styled-table">
+          <thead id="tableHead"></thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </section>
     </main>
-    <div id="resultsContainer"></div>
-    <div id="appointmentsContainer"></div>
-
 
     <script src="studentDashBoard.js"></script>
   </body>
