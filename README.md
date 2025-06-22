@@ -65,10 +65,10 @@ Feel free to fork the repo and submit a pull request.
 
 ### Contact
 
-Rohit Yadav\n
-GitHub: @RohitBCA456\n
-Email: rohit7120yadav@gmail.com\n
-LinkedIn: https://www.linkedin.com/in/rohit-yadav-522032353?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app
+Rohit Yadavbr>
+GitHub: @RohitBCA456<br>
+Email: rohit7120yadav@gmail.combr>
+LinkedIn: https://www.linkedin.com/in/rohit-yadav-522032353?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_appbr>
 
 
 
