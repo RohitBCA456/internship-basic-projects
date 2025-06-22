@@ -58,6 +58,20 @@ Make sure you have the following installed:
 - [MongoDB](https://www.mongodb.com/)
 - [Git](https://git-scm.com/)
 
+### Contributing
+
+Contributions, issues, and feature requests are welcome!
+Feel free to fork the repo and submit a pull request.
+
+### Contact
+
+Rohit Yadav
+GitHub: @RohitBCA456
+Email: rohit7120yadav@gmail.com
+LinkedIn: https://www.linkedin.com/in/rohit-yadav-522032353?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app
+
+
+
 ### Installation
 
 ```bash
@@ -82,16 +96,4 @@ internship-basic-projects/
 ├── appointment-system/      # (Ongoing)
 ├── clinic-management/       # (Planned)
 └── README.md
-
-### Contributing
-
-Contributions, issues, and feature requests are welcome!
-Feel free to fork the repo and submit a pull request.
-
-### Contact
-
-Rohit Yadav
-GitHub: @RohitBCA456
-Email: rohit7120yadav@gmail.com
-LinkedIn: https://www.linkedin.com/in/rohit-yadav-522032353?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app
 
