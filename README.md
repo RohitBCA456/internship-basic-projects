@@ -35,6 +35,7 @@ This repository contains a series of practical projects built during my internsh
   - Role-based dashboards
   - Book, accept, or reject appointments
   - Admin panel for user overview
+  - Chat with teacher
 
 ---
 
