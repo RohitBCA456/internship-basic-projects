@@ -6,35 +6,43 @@
 }
 
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(to bottom, #f0f4f8, #ffffff);
-  color: #2c3e50;
-  line-height: 1.6;
+  font-family: "Segoe UI", sans-serif;
+  margin: 0;
+  background-color: #f4f4f4;
+  color: #333;
 }
 
 /* Header */
 header {
+  background-color: #34495e;
+  color: white;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #34495e;
-  color: #fff;
-  padding: 1.2rem 2rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 1rem 2rem;
+  height: 120px;
 }
 
-header h1 {
-  font-size: 1.8rem;
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
+#dashboardTitle {
+  font-size: 2rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* Buttons */
 .btn {
   padding: 0.6rem 1.2rem;
-  cursor: pointer;
   border: none;
-  border-radius: 8px;
-  font-size: 0.95rem;
-  font-weight: 600;
-  transition: background 0.3s, transform 0.2s;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: transform 0.2s;
 }
 
 .btn:hover {
@@ -44,6 +52,11 @@ header h1 {
 .logout-btn {
   background-color: #e74c3c;
   color: white;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  height: 38.19px;
+  width: 86.38px;
+  margin-left: auto;
 }
 
 .logout-btn:hover {
@@ -93,7 +106,8 @@ main {
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
 }
 
-.card h2, .card h3 {
+.card h2,
+.card h3 {
   margin-bottom: 1rem;
   color: #34495e;
 }
@@ -127,7 +141,7 @@ main {
   font-size: 1rem;
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
 }
 
 .styled-table th,
@@ -167,13 +181,53 @@ main {
 
 /* Responsive */
 @media (max-width: 768px) {
-  .search-bar {
-    flex-direction: column;
+  .header-content {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0;
+  }
+
+  #dashboardTitle {
+    white-space: normal;
+    font-size: 0;
+    color: transparent;
+    position: relative;
+  }
+
+  #dashboardTitle::before {
+    content: "Welcome,";
+    display: block;
+    font-size: 1.6rem;
+    font-weight: 400;
+    color: white;
+  }
+
+  #dashboardTitle::after {
+    content: "Student";
+    display: block;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: white;
+    margin-top: 0.2rem;
+  }
+
+  .logout-btn {
+    margin-left: auto;
+    margin-right: 30px;
+    width: 86.38px;
+    height: 38.19px;
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
   }
 
   .btn {
-    width: 100%;
+    width: auto;
     text-align: center;
+  }
+
+  .search-bar {
+    flex-direction: column;
   }
 
   .icon-btn {
@@ -183,5 +237,11 @@ main {
   .styled-table th,
   .styled-table td {
     padding: 0.75rem;
+  }
+
+  .styled-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
   }
 }

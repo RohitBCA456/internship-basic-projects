@@ -286,6 +286,50 @@ const logoutAdmin = async (req, res) => {
   }
 };
 
+const editTeacherDetails = async (req, res) => {
+  try {
+    const { teacherId } = req.params;
+    const { name, email, department, subject } = req.body;
+
+    if (!teacherId) {
+      return res.status(400).json({
+        success: false,
+        message: "Teacher ID is required",
+      });
+    }
+
+    const teacher = await User.findOne({ _id: teacherId, role: "teacher" });
+
+    if (!teacher) {
+      return res.status(404).json({
+        success: false,
+        message: "Teacher not found",
+      });
+    }
+
+    // Update allowed fields
+    if (name) teacher.name = name;
+    if (email) teacher.email = email;
+    if (department) teacher.department = department;
+    if (subject) teacher.subject = subject;
+
+    await teacher.save();
+
+    return res.status(200).json({
+      success: true,
+      message: "Teacher details updated successfully",
+      teacher,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error while updating teacher",
+      error: error.message,
+    });
+  }
+};
+
+
 export {
   loginAdmin,
   addTeacher,
@@ -295,4 +339,5 @@ export {
   deleteStudent,
   addStudent,
   logoutAdmin,
+  editTeacherDetails,
 };

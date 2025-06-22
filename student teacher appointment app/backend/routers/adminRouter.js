@@ -8,6 +8,7 @@ import {
   getAllStudents,
   getAllTeachers,
   logoutAdmin,
+  editTeacherDetails,
 } from "../controllers/adminController.js";
 import { verifyJWT } from "../middlewares/authMiddleware.js";
 
@@ -21,5 +22,6 @@ router.route("/deleteTeacher/:teacherId").delete(verifyJWT, deleteTeacher);
 router.route("/getAllTeachers").get(verifyJWT, getAllTeachers);
 router.route("/getAllStudents").get(verifyJWT, getAllStudents);
 router.route("/logoutAdmin").post(verifyJWT, logoutAdmin);
+router.route("/editTeacherDetails/:teacherId").put(verifyJWT, editTeacherDetails);
 
 export default router;

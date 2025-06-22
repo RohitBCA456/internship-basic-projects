@@ -20,28 +20,45 @@
       <!-- Action Section -->
       <section class="card">
         <h2>Manage Appointment Requests</h2>
-        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap">
           <button class="btn primary-btn" onclick="fetchAppointments()">
             See Requested Appointments
           </button>
-          <button class="btn secondary-btn" onclick="fetchApprovedAppointments()">
+          <button
+            class="btn secondary-btn"
+            onclick="fetchApprovedAppointments()"
+          >
             See Approved Appointments
           </button>
         </div>
       </section>
 
-      <!-- Pending Appointment Table -->
       <section id="appointmentSection" class="card" style="display: none">
         <h3>Pending Appointments</h3>
         <table class="styled-table">
           <thead>
             <tr>
               <th>Student Name</th>
-              <th>Subject</th>
+              <th id="appointmentSubjectHeading">Subject</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody id="appointmentBody"></tbody>
+        </table>
+      </section>
+
+      <section id="approvedSection" class="card" style="display: none">
+        <h3>Approved Appointments</h3>
+        <table class="styled-table">
+          <thead>
+            <tr>
+              <th>Student Name</th>
+              <th id="approvedDateHeading">Date</th>
+              <th>Time</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="approvedBody"></tbody>
         </table>
       </section>
 

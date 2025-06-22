@@ -33,6 +33,10 @@ async function fetchAppointments() {
   // Hide approved section
   document.getElementById("approvedSection").style.display = "none";
 
+  // Set correct heading for this table
+  const headingEl = document.getElementById("appointmentSubjectHeading");
+  if (headingEl) headingEl.innerText = "Subject";
+
   section.style.display = "block";
   body.innerHTML = "";
 
@@ -59,20 +63,19 @@ async function fetchAppointments() {
       }
 
       pendingAppointments.forEach((appointment) => {
+        const subject =
+          appointment.subject ||
+          appointment.teacherId?.subject ||
+          "N/A";
+
         const row = document.createElement("tr");
 
         row.innerHTML = `
           <td>${appointment.studentId?.name || "Unknown"}</td>
-          <td>${appointment.subject || "N/A"}</td>
+          <td>${subject}</td>
           <td class="action-icons">
-            <i class="fas fa-check-circle" style="color:green" onclick="showConfirmOptions(this, '${
-              appointment._id
-            }', '${appointment.studentId._id}')"></i>
-            <i class="fas fa-times-circle" style="color:red" data-student-id="${
-              appointment.studentId._id
-            }"
-             onclick="rejectAppointment('${appointment._id}', this)"
-  >          </i>
+            <i class="fas fa-check-circle" style="color:green" onclick="showConfirmOptions(this, '${appointment._id}', '${appointment.studentId._id}')"></i>
+            <i class="fas fa-times-circle" style="color:red" data-student-id="${appointment.studentId._id}" onclick="rejectAppointment('${appointment._id}', this)"></i>
           </td>
         `;
 
@@ -86,6 +89,7 @@ async function fetchAppointments() {
     alert("Something went wrong while fetching appointments.");
   }
 }
+
 
 function showConfirmOptions(iconEl, appointmentId, studentId) {
   const parent = iconEl.parentElement;
@@ -194,6 +198,9 @@ async function fetchApprovedAppointments() {
         body.innerHTML = `<tr><td colspan="4">No approved appointments.</td></tr>`;
         return;
       }
+
+      document.getElementById("approvedDateHeading").innerText = "Date";
+
 
       approved.forEach((appointment) => {
         const rawDate = new Date(appointment.date);
