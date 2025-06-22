@@ -133,6 +133,7 @@ async function seeAppointments() {
   );
 
   const data = await response.json();
+
   const dynamicSection = document.getElementById("dynamicSection");
   const dynamicTitle = document.getElementById("dynamicTitle");
   const tableHead = document.getElementById("tableHead");
