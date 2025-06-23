@@ -32,6 +32,7 @@ async function fetchAppointments() {
 
   // Hide approved section
   document.getElementById("approvedSection").style.display = "none";
+  document.getElementById("chatSection").style.display = "none";
 
   // Set correct heading for this table
   const headingEl = document.getElementById("appointmentSubjectHeading");
@@ -174,6 +175,7 @@ async function fetchApprovedAppointments() {
 
   // Hide pending section
   document.getElementById("appointmentSection").style.display = "none";
+  document.getElementById("chatSection").style.display = "none";
 
   section.style.display = "block";
   body.innerHTML = "";
