@@ -73,7 +73,7 @@ LinkedIn: https://www.linkedin.com/in/rohit-yadav-522032353?utm_source=share&utm
 
 
 
-#Installation
+## Installation
 
 ### 1. Clone the repository
 
@@ -100,7 +100,7 @@ npx nodemon server.js
 
 ```
 
-# Project Structure
+## Project Structure
 
 ```bash
 
