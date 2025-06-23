@@ -1,5 +1,6 @@
 import { User } from "../model/user.model.js";
 import { Room } from "../model/room.model.js";
+
 const registerUser = async (req, res) => {
   try {
     const { username } = req.body;
@@ -16,24 +17,53 @@ const registerUser = async (req, res) => {
       username: username,
     });
 
-    const token = await user_data.generateToken(user_data._id);
-    user_data.token = token;
+    // const token = await user_data.generateToken(user_data._id);
+    // user_data.token = token;
     user_data.save({ validateBeforeSave: false });
-    const options = {
-      httpOnly: true,
-      secure: true,
-      sameSite: "None",
-      path: "/",
-    };
+    // const options = {
+    //   httpOnly: true,
+    //   secure: true,
+    //   sameSite: "None",
+    //   path: "/",
+    // };
     return res
       .status(200)
-      .cookie("token", token, options)
-      .json({ message: "user enter thr app in successfully." });
+      .json({ message: "user enter thr app in successfully.", user_data });
   } catch (error) {
     console.log("Error occured while registering user.", error);
     return res.status(500).json({ message: "user registration failed." });
   }
 };
+
+const login = async (req, res) => {
+  const { username } = req.body;
+
+  console.log(username);
+
+  const user = await User.findOne({ username });
+  if (!user) {
+    return res.status(400).json({
+      message: "please enter the username.",
+    });
+  }
+
+  user.token = await user.generateToken();
+  await user.save({ validateBeforeSave: false });
+
+  const token = user.token;
+
+  const options = {
+    httpOnly: true,
+    secure: true,
+    sameSite: "none",
+    path: "/",
+  };
+
+  return res.status(200).cookie("token", token, options).json({
+    message: "User logged In successfully.",
+  });
+};
+
 
 const createRoom = async (req, res) => {
   try {
@@ -94,4 +124,4 @@ const joinRoom = async (req, res) => {
   }
 };
 
-export { registerUser, createRoom, joinRoom };
+export { registerUser, createRoom, joinRoom, login };

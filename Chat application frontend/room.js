@@ -48,7 +48,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const input = document.getElementById("message");
     const message = input.value.trim();
     if (!message) return;
+
+    // Emit the message to server — no local display to avoid duplication
     socket.emit("send-message", { roomId, username, message });
+
     input.value = "";
   };
 });
@@ -127,7 +130,6 @@ window.editMessage = function (btn) {
 
       socket.emit("edit-message", { id: messageId, newText, roomId });
 
-      // Update span immediately to reflect new message
       span.textContent = newText;
 
       cancelEdit();
@@ -179,7 +181,8 @@ window.deleteRoom = function () {
 window.leaveRoom = function () {
   if (confirm("Are you sure you want to leave the room?")) {
     const user = JSON.parse(localStorage.getItem("user"));
-    if (!user?.roomId) return console.error("Room ID not found in localStorage.");
+    if (!user?.roomId)
+      return console.error("Room ID not found in localStorage.");
 
     fetch("http://localhost:5000/room/leaveroom", {
       method: "POST",

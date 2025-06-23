@@ -19,9 +19,9 @@ async function register() {
       return;
     }
     alert("Registration successful!");
-    localStorage.setItem("user", JSON.stringify(username))
+    localStorage.setItem("user", JSON.stringify(username));
     // Redirect to homepage
-    window.location.href = "mainPage.html";
+    window.location.href = "login.html";
   } catch (error) {
     console.error("Registration error:", error);
     alert("An error occurred. Please try again.");
