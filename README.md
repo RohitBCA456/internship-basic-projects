@@ -96,12 +96,12 @@ npx nodemon server.js
 
 ```bash
 
-internship-basic-projects/
 │
-├── portfolio-website/
-├── chat-application/
-├── appointment-system/      # (Ongoing)
-├── clinic-management/       # (Planned)
+├── portfolio-website/ # Frontend portfolio site
+├── chat-application backend/ # Backend for real-time chat
+├── chat-application frontend/ # Frontend for real-time chat
+├── appointment-system/ # Role-based app (Ongoing)
+├── clinic-management/ # Medical system (Planned)
 └── README.md
 
 ```
