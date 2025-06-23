@@ -84,9 +84,10 @@ const joinRoom = async (req, res) => {
       return res.status(400).json({ message: "User not found for join room." });
     }
 
+    const isOwner = String(room.creator) === String(userId); // compare IDs as strings
     return res
       .status(200)
-      .json({ message: "Joined room", roomId, user: user.username });
+      .json({ message: "Joined room", roomId, user: user.username, isOwner });
   } catch (error) {
     console.error("Error in joinRoom:", error);
     return res.status(500).json({ message: "Failed to join room." });

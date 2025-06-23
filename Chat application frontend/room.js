@@ -1,3 +1,5 @@
+let socket;
+
 document.addEventListener("DOMContentLoaded", () => {
   const userData = localStorage.getItem("user");
   if (!userData) return alert("User not found");
@@ -5,23 +7,17 @@ document.addEventListener("DOMContentLoaded", () => {
   const user = JSON.parse(userData);
   const { username, roomId, isOwner } = user;
 
-  // Show appropriate button
   document.getElementById(
     isOwner ? "delete-room-btn" : "leave-room-btn"
   ).style.display = "inline-block";
 
-  // Set UI values
   document.getElementById("room-id").textContent = roomId;
   document.getElementById("username").textContent = username;
 
-  const socket = io("http://localhost:5000");
+  socket = io("http://localhost:5000");
 
   socket.on("connect", () => console.log("Connected to server!"));
   socket.emit("join-room", roomId);
-
-  socket.on("message-updated", () => {
-    location.reload(); // Reload the page when message is edited, deleted, or sent
-  });
 
   socket.on("receive-message", ({ username, message, timestamp, _id }) => {
     displayMessage(username, message, timestamp, _id);
@@ -31,6 +27,21 @@ document.addEventListener("DOMContentLoaded", () => {
     messages.forEach(({ sender, content, timestamp, _id }) => {
       displayMessage(sender, content, timestamp, _id);
     });
+  });
+
+  socket.on("message-edited", ({ id, newText }) => {
+    const messageCard = document.querySelector(`[data-id="${id}"]`);
+    if (messageCard) {
+      const span = messageCard.querySelector(".message-content span");
+      if (span) span.innerHTML = linkify(newText);
+    }
+  });
+
+  socket.on("message-deleted", ({ id }) => {
+    const messageCard = document.querySelector(`[data-id="${id}"]`);
+    if (messageCard) {
+      messageCard.remove();
+    }
   });
 
   window.sendMessage = function () {
@@ -72,16 +83,12 @@ function displayMessage(user, text, timestamp = null, messageId = null) {
   ts.className = "timestamp";
   ts.textContent = time;
 
-  // Create Edit, Delete, and Pin buttons directly inside the message content
   const actionBtns = document.createElement("div");
   actionBtns.className = "action-buttons";
 
   if (user === document.getElementById("username").textContent) {
     actionBtns.innerHTML += `
-      <button onclick="editMessage('${text.replace(
-        /'/g,
-        "\\'"
-      )}', this)" class="pop-up-btn">Edit</button>
+      <button onclick="editMessage(this)" class="pop-up-btn">Edit</button>
       <button onclick="deleteMessage(this)" class="pop-up-btn">Delete</button>
     `;
   }
@@ -91,48 +98,39 @@ function displayMessage(user, text, timestamp = null, messageId = null) {
     isPinned ? "Unpin" : "Pin"
   }</button>`;
 
-  content.appendChild(actionBtns); // Append buttons inline with content
-
+  content.appendChild(actionBtns);
   messageEl.append(content, ts);
 
-  messageEl.addEventListener("click", (e) => {
-    e.stopPropagation();
-  });
+  messageEl.addEventListener("click", (e) => e.stopPropagation());
 
   chat.appendChild(messageEl);
   messageEl.scrollIntoView({ behavior: "smooth" });
 }
 
-window.editMessage = function (oldText, btn) {
+window.editMessage = function (btn) {
   const messageCard = btn.closest(".message");
   const messageId = messageCard.dataset.id;
+  const roomId = document.getElementById("room-id").textContent;
 
   const span = messageCard.querySelector(".message-content span");
+  const oldText = span.textContent.trim();
 
   const input = document.createElement("input");
   input.type = "text";
-  input.value = oldText.trim(); // Trim to remove unwanted leading/trailing spaces
+  input.value = oldText;
   input.className = "edit-input";
 
-  // Prevent the extra space by listening to the input field
   input.addEventListener("keydown", (e) => {
     if (e.key === "Enter") {
       const newText = input.value.trim();
       if (!newText || newText === oldText) return cancelEdit();
 
-      fetch("http://localhost:5000/message/edit", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id: messageId, newText }),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.message === "Message edited.") {
-            span.innerHTML = linkify(newText); // Update message with new text
-            cancelEdit();
-          }
-        })
-        .catch(console.error);
+      socket.emit("edit-message", { id: messageId, newText, roomId });
+
+      // Update span immediately to reflect new message
+      span.textContent = newText;
+
+      cancelEdit();
     } else if (e.key === "Escape") {
       cancelEdit();
     }
@@ -150,32 +148,15 @@ window.editMessage = function (oldText, btn) {
 window.deleteMessage = function (btn) {
   const messageCard = btn.closest(".message");
   const messageId = messageCard.dataset.id;
-
+  const roomId = document.getElementById("room-id").textContent;
   if (!messageId) return console.error("Message ID not found");
-
-  messageCard.querySelector(".message-popup")?.remove();
-
-  fetch("http://localhost:5000/message/delete", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ id: messageId }),
-  })
-    .then((res) => res.json())
-    .then((data) => {
-      if (data.message === "Message deleted.") {
-        messageCard.remove();
-      } else {
-        console.error("Error deleting message:", data.message);
-      }
-    })
-    .catch(console.error);
+  socket.emit("delete-message", { id: messageId, roomId });
 };
 
 window.deleteRoom = function () {
   if (!confirm("Are you sure you want to delete the room?")) return;
-
-  // const user = JSON.parse(localStorage.getItem("user"));
-  // if (!user?.roomId) return console.error("Room ID not found in localStorage.");
+  const user = JSON.parse(localStorage.getItem("user"));
+  if (!user?.roomId) return console.error("Room ID not found in localStorage.");
 
   fetch("http://localhost:5000/room/deleteroom", {
     method: "GET",
@@ -198,13 +179,13 @@ window.deleteRoom = function () {
 window.leaveRoom = function () {
   if (confirm("Are you sure you want to leave the room?")) {
     const user = JSON.parse(localStorage.getItem("user"));
-    // if (!user?.roomId)
-    //   return console.error("Room ID not found in localStorage.");
-    // fetch("http://localhost:5000/room/leaveroom", {
-    //   method: "POST",
-    //   headers: { "Content-Type": "application/json" },
-    //   body: JSON.stringify({ username: user.username }),
-    // });
+    if (!user?.roomId) return console.error("Room ID not found in localStorage.");
+
+    fetch("http://localhost:5000/room/leaveroom", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username: user.username }),
+    });
     localStorage.removeItem("user");
     window.location.href = "mainPage.html";
   }
@@ -217,7 +198,6 @@ window.togglePin = function (btn) {
   messageCard.querySelector(".message-popup")?.remove();
 };
 
-// Hide popups when clicking outside
 document.addEventListener("click", (e) => {
   const isInsidePopup = e.target.closest(".message-popup");
   const isInsideMessage = e.target.closest(".message");

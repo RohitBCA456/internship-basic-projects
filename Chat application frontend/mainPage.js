@@ -25,7 +25,7 @@ async function createRoom() {
     // Redirect after short delay (optional)
     setTimeout(() => {
       window.location.href =
-        "http://127.0.0.1:5500/Chat%20application/room.html";
+        "http://127.0.0.1:5500/Chat%20application%20frontend/room.html";
     }, 500);
   } catch (error) {
     console.log("Create Room Error:", error);
@@ -47,12 +47,12 @@ async function joinRoom() {
 
     const joinData = await joinRes.json();
     console.log(joinData);
-    const username = joinData.user;
+    const { user: username, isOwner } = joinData;
     if (!joinRes.ok) return alert(joinData.message);
-    // ✅ Save the correct data to localStorage
+
     localStorage.setItem(
       "user",
-      JSON.stringify({ username, roomId, isOwner: false })
+      JSON.stringify({ username, roomId, isOwner }) // store isOwner
     );
 
     window.location.href = `room.html?room=${roomId}`;
