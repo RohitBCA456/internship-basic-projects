@@ -75,23 +75,24 @@ LinkedIn: https://www.linkedin.com/in/rohit-yadav-522032353?utm_source=share&utm
 
 ### Installation
 
+# 1. Clone the repository
+
 ```bash
-# Clone the repository
 git clone https://github.com/RohitBCA456/internship-basic-projects.git
 cd internship-basic-projects
 ```
 
-```bash
+# 2. Navigate into each project folder and install dependencies
 
-# Navigate into each project folder and install dependencies
+```bash
 cd chat-application
 npm install
 
 ```
 
-```bash
+# 3. Example for Node.js project
 
-# Example for Node.js project
+```bash
 node server.js
 
 # or using nodemon
