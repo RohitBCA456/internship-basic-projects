@@ -245,3 +245,13 @@ main {
     white-space: nowrap;
   }
 }
+
+.unread-badge {
+  background-color: red;
+  color: white;
+  font-size: 10px;
+  padding: 2px 6px;
+  margin-left: 4px;
+  border-radius: 12px;
+  vertical-align: top;
+}

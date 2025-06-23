@@ -96,10 +96,8 @@ async function bookAppointment(teacherId) {
     if (response.ok) {
       alert(data.message || "Appointment request sent successfully.");
 
-      // Clear the input box
       document.getElementById("searchInput").value = "";
 
-      // Remove the row from table
       const row = document
         .querySelector(`button[onclick="bookAppointment('${teacherId}')"]`)
         .closest("tr");
@@ -158,21 +156,29 @@ async function seeAppointments() {
         ? new Date(app.date).toLocaleDateString("en-CA")
         : "Not set";
 
+      const unreadCount = app.unreadCount || 0;
+
       const row = document.createElement("tr");
       row.innerHTML = `
-    <td>${app.teacherId?.name || "Unknown"}</td>
-    <td>${formattedDate}</td>
-    <td>${app.timeSlot || "Not set"}</td>
-    <td>${app.status}</td>
-    <td>
-      <button class="icon-btn" onclick="deleteAppointment('${
-        app._id
-      }')">🗑️</button>
-      <button class="icon-btn" onclick="sendMessage('${
-        app.teacherId?._id || ""
-      }')">💬</button>
-    </td>
-  `;
+  <td>${app.teacherId?.name || "Unknown"}</td>
+  <td>${formattedDate}</td>
+  <td>${app.timeSlot || "Not set"}</td>
+  <td>${app.status}</td>
+  <td>
+    <button class="icon-btn" onclick="deleteAppointment('${
+      app._id
+    }')">🗑️</button>
+    <button class="icon-btn" onclick="sendMessage('${
+      app.teacherId?._id || ""
+    }')">
+      💬 ${
+        unreadCount > 0
+          ? `<span class="unread-badge">${unreadCount}</span>`
+          : ""
+      }
+    </button>
+  </td>
+`;
       tableBody.appendChild(row);
     });
   } else {
@@ -212,18 +218,34 @@ async function sendMessage(teacherId) {
     const response = await fetch("http://localhost:2000/auth/getCurrentUser", {
       method: "GET",
       headers: { "Content-Type": "application/json" },
-      credentials: "include", // Needed for session cookies
+      credentials: "include",
     });
 
     const result = await response.json();
-
-    console.log("Current user data:", result);
-
     const studentId = result.user?._id;
 
     if (!studentId) {
       alert("Student not logged in!");
       return;
+    }
+
+    const roomId = `${studentId}-${teacherId}`;
+
+    localStorage.setItem("studentId", studentId);
+    localStorage.setItem("teacherId", teacherId);
+    localStorage.setItem("roomId", roomId);
+
+    const markAsRead = await fetch("http://localhost:2000/message/markAsRead", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({ teacherId, studentId }),
+    });
+
+    if (!markAsRead) {
+        return res.status(400).json({
+        message: "Message Not marked as read.",
+      });
     }
 
     const roomUrl = `chatRoom.html?teacherId=${teacherId}&studentId=${studentId}`;

@@ -62,7 +62,7 @@ main {
 .styled-table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 600px; /* Ensures scroll on small screens */
+  min-width: 600px; 
 }
 
 .styled-table th,
@@ -102,4 +102,14 @@ main {
   .table-responsive {
     overflow-x: auto;
   }
+}
+
+.unread-badge {
+  background-color: red;
+  color: white;
+  font-size: 10px;
+  padding: 2px 6px;
+  margin-left: 5px;
+  border-radius: 12px;
+  vertical-align: middle;
 }

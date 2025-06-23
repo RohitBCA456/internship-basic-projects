@@ -30,11 +30,9 @@ async function fetchAppointments() {
   const section = document.getElementById("appointmentSection");
   const body = document.getElementById("appointmentBody");
 
-  // Hide approved section
   document.getElementById("approvedSection").style.display = "none";
   document.getElementById("chatSection").style.display = "none";
 
-  // Set correct heading for this table
   const headingEl = document.getElementById("appointmentSubjectHeading");
   if (headingEl) headingEl.innerText = "Subject";
 
@@ -140,7 +138,6 @@ async function confirmAppointment(appointmentId, btnElement) {
     return;
   }
 
-  // Assuming you have studentId stored somewhere, like in a data attribute
   const studentId = btnElement.getAttribute("data-student-id");
 
   const response = await fetch(
@@ -152,7 +149,7 @@ async function confirmAppointment(appointmentId, btnElement) {
       },
       credentials: "include",
       body: JSON.stringify({
-        appoitmentStatus: true, // 🟢 correct spelling
+        appoitmentStatus: true, 
         studentId,
         date,
         time,
@@ -173,7 +170,6 @@ async function fetchApprovedAppointments() {
   const section = document.getElementById("approvedSection");
   const body = document.getElementById("approvedBody");
 
-  // Hide pending section
   document.getElementById("appointmentSection").style.display = "none";
   document.getElementById("chatSection").style.display = "none";
 
@@ -230,7 +226,6 @@ async function fetchChatUsers() {
   const chatSection = document.getElementById("chatSection");
   const chatBody = document.getElementById("chatBody");
 
-  // Hide others
   document.getElementById("appointmentSection").style.display = "none";
   document.getElementById("approvedSection").style.display = "none";
 
@@ -238,12 +233,33 @@ async function fetchChatUsers() {
   chatBody.innerHTML = "";
 
   try {
+    const currentUserRes = await fetch("http://localhost:2000/auth/getCurrentUser", {
+      method: "GET",
+      credentials: "include",
+    });
+    const currentUserData = await currentUserRes.json();
+    const teacherId = currentUserData.user?._id;
+
     const response = await fetch("http://localhost:2000/message/getStudentMessages", {
       method: "GET",
       credentials: "include",
     });
 
     const data = await response.json();
+
+    const unreadRes = await fetch("http://localhost:2000/appointment/seeAppointments", {
+      method: "GET",
+      credentials: "include",
+    });
+    const unreadData = await unreadRes.json();
+    const unreadMap = {};
+
+    if (unreadData.success) {
+      unreadData.appointments.forEach((app) => {
+        const roomId = app.roomId;
+        unreadMap[roomId] = app.unreadCount;
+      });
+    }
 
     if (response.ok && Array.isArray(data.students)) {
       if (data.students.length === 0) {
@@ -252,11 +268,19 @@ async function fetchChatUsers() {
       }
 
       data.students.forEach((student) => {
+        const roomId = `${student._id}-${teacherId}`;
+        const unreadCount = unreadMap[roomId] || 0;
+
         const row = document.createElement("tr");
         row.innerHTML = `
           <td>${student.name || "Unknown"}</td>
           <td>${student.email || "N/A"}</td>
-          <td><button class="btn primary-btn" onclick="goToChat('${student._id}')">Chat</button></td>
+          <td>
+            <button class="btn primary-btn" onclick="goToChat('${student._id}')">
+              Chat
+              ${unreadCount > 0 ? `<span class="unread-badge">${unreadCount}</span>` : ""}
+            </button>
+          </td>
         `;
         chatBody.appendChild(row);
       });
@@ -268,6 +292,7 @@ async function fetchChatUsers() {
     alert("Something went wrong while fetching messages.");
   }
 }
+
 
 async function goToChat(studentId) {
   try {
@@ -284,6 +309,13 @@ async function goToChat(studentId) {
       alert("Teacher not logged in!");
       return;
     }
+
+    await fetch("http://localhost:2000/message/markAsRead", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({ teacherId, studentId }),
+    });
 
     const url = `chatRoom.html?teacherId=${teacherId}&studentId=${studentId}`;
     window.location.href = url;

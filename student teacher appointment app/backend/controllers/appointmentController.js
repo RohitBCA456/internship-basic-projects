@@ -1,5 +1,6 @@
 import { Appointment } from "../models/appointmentModel.js";
 import { User } from "../models/userModel.js";
+import { Message } from "../models/messageModel.js";
 
 const sendAppointment = async (req, res) => {
   const { teacherId } = req.body;
@@ -31,19 +32,17 @@ const sendAppointment = async (req, res) => {
 };
 
 const seeAppointments = async (req, res) => {
-  const userId = req.user?._id;
+  const userId = req.user?._id.toString();
   const role = req.user?.role;
 
   try {
     let appointments;
 
     if (role === "student") {
-      // Show appointments requested by this student
       appointments = await Appointment.find({ studentId: userId })
         .populate("teacherId", "name email department")
         .populate("studentId", "name email");
     } else if (role === "teacher") {
-      // Show all appointments requested to this teacher (pending + confirmed + rejected)
       appointments = await Appointment.find({ teacherId: userId })
         .populate("teacherId", "name email department")
         .populate("studentId", "name email");
@@ -54,11 +53,29 @@ const seeAppointments = async (req, res) => {
       });
     }
 
+    const appointmentsWithUnread = await Promise.all(
+      appointments.map(async (appt) => {
+        const roomId = `${appt.studentId._id}-${appt.teacherId._id}`;
+        const unreadCount = await Message.countDocuments({
+          roomId,
+          sender: { $ne: userId },
+          read: false,
+        });
+
+        return {
+          ...appt._doc,
+          roomId,
+          unreadCount,
+        };
+      })
+    );
+
     return res.status(200).json({
       success: true,
-      appointments,
+      appointments: appointmentsWithUnread,
     });
   } catch (error) {
+    console.error("Error in seeAppointments:", error);
     return res.status(500).json({
       success: false,
       message: "Internal server error while fetching appointments",
@@ -66,6 +83,7 @@ const seeAppointments = async (req, res) => {
     });
   }
 };
+
 
 
 const deleteAppointment = async (req, res) => {

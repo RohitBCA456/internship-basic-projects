@@ -21,11 +21,10 @@ fetch("http://localhost:2000/auth/getCurrentUser", {
       return;
     }
 
-    currentUserId = String(userData.user._id); // Ensure string
+    currentUserId = String(userData.user._id);
 
     socket.emit("register", currentUserId);
     socket.emit("join-room", roomId);
-    socket.emit("mark_read", { roomId, username: currentUserId });
 
     setupSocketListeners();
   })
@@ -39,11 +38,25 @@ function setupSocketListeners() {
       const isSentByCurrentUser = String(msg.sender) === currentUserId;
       appendMessage(msg.content, isSentByCurrentUser ? "sent" : "received");
     });
+
+    setTimeout(() => {
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+    }, 50);
   });
 
   socket.on("receive-message", (msg) => {
     const isSentByCurrentUser = String(msg.sender) === currentUserId;
+
     appendMessage(msg.message, isSentByCurrentUser ? "sent" : "received");
+
+    if (!isSentByCurrentUser) {
+      console.log("Marking as read:", roomId, currentUserId);
+      socket.emit("mark_read", { roomId, username: currentUserId });
+    }
+  });
+
+  socket.on("messages-read", ({ roomId, markedBy }) => {
+    console.log(`Messages marked as read in ${roomId} by ${markedBy}`);
   });
 }
 
@@ -64,6 +77,8 @@ function appendMessage(text, type) {
   const messageDiv = document.createElement("div");
   messageDiv.classList.add("message", type);
   messageDiv.textContent = text;
+
   chatContainer.appendChild(messageDiv);
+
   chatContainer.scrollTop = chatContainer.scrollHeight;
 }

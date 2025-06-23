@@ -98,3 +98,21 @@ header {
 #sendButton:hover {
   background-color: #27ae60;
 }
+
+.message {
+  padding: 10px;
+  margin: 6px;
+  border-radius: 8px;
+  max-width: 70%;
+}
+
+.message.sent {
+  background-color: #d1f7c4;
+  align-self: flex-end;
+}
+
+.message.received {
+  background-color: #f1f1f1;
+  align-self: flex-start;
+}
+
