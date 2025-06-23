@@ -73,28 +73,44 @@ LinkedIn: https://www.linkedin.com/in/rohit-yadav-522032353?utm_source=share&utm
 
 
 
-### Installation
+## Installation
+
+### 1. Clone the repository
 
 ```bash
-# Clone the repository
 git clone https://github.com/RohitBCA456/internship-basic-projects.git
 cd internship-basic-projects
+```
 
-# Navigate into each project folder and install dependencies
+### 2. Navigate into each project folder and install dependencies
+
+```bash
 cd chat-application
 npm install
 
-# Example for Node.js project
+```
+
+### 3. Example for Node.js project
+
+```bash
 node server.js
 
 # or using nodemon
 npx nodemon server.js
 
-internship-basic-projects/
+```
+
+## Project Structure
+
+```bash
+
 │
-├── portfolio-website/
-├── chat-application/
-├── appointment-system/      # (Ongoing)
-├── clinic-management/       # (Planned)
+├── portfolio-website/ # Frontend portfolio site
+├── chat-application backend/ # Backend for real-time chat
+├── chat-application frontend/ # Frontend for real-time chat
+├── appointment-system/ # Role-based app (Ongoing)
+├── clinic-management/ # Medical system (Planned)
 └── README.md
+
+```
 
