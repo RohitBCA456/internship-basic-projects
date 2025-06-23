@@ -94,6 +94,8 @@ npx nodemon server.js
 
 ### Project Structure
 
+```bash
+
 internship-basic-projects/
 │
 ├── portfolio-website/
@@ -101,4 +103,6 @@ internship-basic-projects/
 ├── appointment-system/      # (Ongoing)
 ├── clinic-management/       # (Planned)
 └── README.md
+
+```
 
