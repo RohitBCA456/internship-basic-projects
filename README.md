@@ -90,6 +90,10 @@ node server.js
 # or using nodemon
 npx nodemon server.js
 
+```
+
+### Project Structure
+
 internship-basic-projects/
 │
 ├── portfolio-website/
