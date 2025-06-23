@@ -1,4 +1,4 @@
-import mongoose from "mongoose"; // ✅ Required to convert string to ObjectId
+import mongoose from "mongoose";
 import { Message } from "../models/messageModel.js";
 import { User } from "../models/userModel.js";
 
