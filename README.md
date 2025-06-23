@@ -79,10 +79,17 @@ LinkedIn: https://www.linkedin.com/in/rohit-yadav-522032353?utm_source=share&utm
 # Clone the repository
 git clone https://github.com/RohitBCA456/internship-basic-projects.git
 cd internship-basic-projects
+```
+
+```bash
 
 # Navigate into each project folder and install dependencies
 cd chat-application
 npm install
+
+```
+
+```bash
 
 # Example for Node.js project
 node server.js
