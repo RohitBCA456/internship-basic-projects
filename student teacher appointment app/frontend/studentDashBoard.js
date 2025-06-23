@@ -67,9 +67,6 @@ async function searchTeacher() {
           <button class="icon-btn" onclick="bookAppointment('${
             teacher._id
           }')">📅</button>
-          <button class="icon-btn" onclick="sendMessage('${
-            teacher._id
-          }')">💬</button>
         </td>
       `;
       tableBody.appendChild(row);
