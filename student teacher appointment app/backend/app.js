@@ -11,6 +11,7 @@ import http from "http";
 import { Server } from "socket.io";
 import { setupSocketHandlers } from "./utils/Message.js";
 import messageRouter from "./routers/messageRouter.js";
+import { logger } from "./middlewares/logger.js";
 
 dotenv.config({ path: "./.env" });
 
@@ -19,6 +20,7 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
+app.use(logger);
 
 app.use(
   cors({
