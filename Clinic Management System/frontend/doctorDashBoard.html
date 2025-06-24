@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Doctor Dashboard</title>
+  <link rel="stylesheet" href="doctorDashBoard.css" />
+</head>
+<body>
+  <div class="dashboard">
+    <h1>Doctor Dashboard</h1>
+    <div class="button-group">
+      <button id="seePatientsBtn">See All New Patients</button>
+      <button id="logoutBtn">Logout</button>
+    </div>
+
+    <!-- Patient Table Section -->
+    <div id="patientTableSection" class="table-section hidden">
+      <h2>New Patients</h2>
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th><th>Age</th><th>Gender</th><th>Contact</th><th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="patientTableBody">
+            <!-- Rows inserted dynamically -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Prescription Form Section -->
+    <div id="prescriptionFormSection" class="form-section hidden">
+      <h2>Add Prescription</h2>
+      <form id="prescriptionForm">
+        <input type="text" id="medicines" placeholder="Medicines (e.g. Paracetamol, Vitamin D)" required />
+        <textarea id="notes" placeholder="Notes or Instructions" rows="4" required></textarea>
+        <button type="submit">Submit Prescription</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="doctorDashBoard.js"></script>
+</body>
+</html>
