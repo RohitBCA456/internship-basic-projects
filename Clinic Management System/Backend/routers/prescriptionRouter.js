@@ -4,6 +4,7 @@ import {
   createPrescription,
   getPrescriptionsByPatient,
 } from "../controllers/prescriptionController.js";
+import { authMiddleware } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
@@ -11,7 +12,7 @@ const router = express.Router();
 router.get("/patients/token/:tokenId", getPatientByToken);
 
 // Doctor adds a prescription
-router.post("/prescriptions", createPrescription);
+router.post("/createPrescriptions", authMiddleware, createPrescription);
 
 // Get patient's prescription history
 router.get("/prescriptions/:patientId", getPrescriptionsByPatient);

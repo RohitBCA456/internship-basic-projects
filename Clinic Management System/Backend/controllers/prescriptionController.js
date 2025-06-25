@@ -6,9 +6,16 @@ export const getPatientByToken = async (req, res) => {
   try {
     const { tokenId } = req.params;
 
-    const token = await Token.findOne({ tokenNumber: tokenId }).populate("patientId");
+    const token = await Token.findOne({ tokenNumber: tokenId }).populate(
+      "patientId"
+    );
     if (!token || !token.patientId) {
-      return res.status(404).json({ success: false, message: "Patient not found with given token." });
+      return res
+        .status(404)
+        .json({
+          success: false,
+          message: "Patient not found with given token.",
+        });
     }
 
     res.status(200).json({ success: true, data: token.patientId });
@@ -20,10 +27,13 @@ export const getPatientByToken = async (req, res) => {
 
 export const createPrescription = async (req, res) => {
   try {
-    const { patientId, doctorId, medicines, notes } = req.body;
+    const { patientId, medicines, notes } = req.body;
+    const doctorId = req.user?._id;
 
     if (!patientId || !doctorId || !medicines || medicines.length === 0) {
-      return res.status(400).json({ success: false, message: "Required fields missing." });
+      return res
+        .status(400)
+        .json({ success: false, message: "Required fields missing." });
     }
 
     const newPrescription = await Prescription.create({
