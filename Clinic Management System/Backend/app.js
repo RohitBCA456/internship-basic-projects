@@ -19,7 +19,7 @@ app.use(logger);
 
 app.use(
   cors({
-    origin: "*",
+    origin: process.env.ORIGIN,
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,

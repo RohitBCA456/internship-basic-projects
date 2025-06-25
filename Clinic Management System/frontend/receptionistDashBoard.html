@@ -1,134 +1,123 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Receptionist Dashboard</title>
-    <link rel="stylesheet" href="receptionistDashBoard.css" />
-  </head>
-  <body>
-    <div class="dashboard">
-      <h1>Receptionist Dashboard</h1>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Receptionist Dashboard</title>
+  <link rel="stylesheet" href="receptionistDashBoard.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
-      <div class="button-group">
-        <button id="registerBtn">Register Patient</button>
-        <button id="seePatientsBtn">See All Patients</button>
-        <button id="seeHistoryBtn">See Patient History</button>
-        <button id="generateBillBtn">Generate Bill</button>
-        <button id="logoutBtn">Logout</button>
-      </div>
+</head>
+<body>
+  <div class="dashboard">
+    <h1>Receptionist Dashboard</h1>
 
-      <!-- Register Form -->
-      <div id="registerForm" class="form-section hidden">
-        <h2>Register New Patient</h2>
-        <form id="patientForm">
-          <input type="text" id="name" placeholder="Patient Name" required />
-          <input type="number" id="age" placeholder="Age" required />
-          <select id="gender" required>
-            <option value="" disabled selected>Select Gender</option>
-            <option>Male</option>
-            <option>Female</option>
-            <option>Other</option>
-          </select>
-          <input
-            type="text"
-            id="contact"
-            placeholder="Contact Number"
-            required
-          />
-          <button type="submit">Submit</button>
-        </form>
-      </div>
+    <div class="button-group">
+      <button id="registerBtn">Register Patient</button>
+      <button id="seePatientsBtn">See All Patients</button>
+      <button id="seeHistoryBtn">See Patient History</button>
+      <button id="generateBillBtn">Generate Bill</button>
+      <button id="logoutBtn">Logout</button>
+    </div>
 
-      <!-- All Patients Table -->
-      <div id="patientTableSection" class="table-section hidden">
-        <h2>All Patients</h2>
-        <div class="table-responsive">
-          <table>
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Age</th>
-                <th>Gender</th>
-                <th>Contact</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody id="patientTableBody"></tbody>
-          </table>
-        </div>
-      </div>
+    <!-- Register Form -->
+    <div id="registerForm" class="form-section hidden">
+      <h2>Register New Patient</h2>
+      <form id="patientForm">
+        <input type="text" id="name" placeholder="Patient Name" required />
+        <input type="number" id="age" placeholder="Age" required />
+        <select id="gender" required>
+          <option value="" disabled selected>Select Gender</option>
+          <option>Male</option>
+          <option>Female</option>
+          <option>Other</option>
+        </select>
+        <input type="text" id="contact" placeholder="Contact Number" required />
+        <button type="submit">Submit</button>
+      </form>
+    </div>
 
-      <!-- Patient History Table -->
-      <div id="patientHistorySection" class="table-section hidden">
-        <h2>Patient History</h2>
-        <div class="table-responsive">
-          <table>
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Age</th>
-                <th>Gender</th>
-                <th>Contact</th>
-                <th>Token ID</th>
-              </tr>
-            </thead>
-            <tbody id="historyTableBody"></tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- Billing Section -->
-      <div id="billingSection" class="table-section hidden">
-        <h2>Pending Bills</h2>
-        <div class="table-responsive">
-          <table>
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Age</th>
-                <th>Gender</th>
-                <th>Contact</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody id="billTableBody"></tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- Create Bill Form -->
-      <div id="createBillForm" class="form-section hidden">
-        <h2>Create Bill</h2>
-        <form id="billForm">
-          <input
-            type="text"
-            id="billServices"
-            placeholder="Services (e.g. X-Ray, MRI)"
-            required
-          />
-          <input
-            type="number"
-            id="billAmount"
-            placeholder="Amount (in ₹)"
-            required
-          />
-          <button type="submit">Submit Bill</button>
-        </form>
-      </div>
-
-      <!-- Bill Modal -->
-      <div id="billModal" class="modal hidden">
-        <div class="modal-content">
-          <h3>Patient Token</h3>
-          <div id="modal-token-content" style="margin-bottom: 15px"></div>
-          <button onclick="downloadBill()">Download Token</button>
-          <button onclick="printBill()">Print Token</button>
-          <button onclick="closeModal()">Close</button>
-        </div>
+    <!-- All Patients Table -->
+    <div id="patientTableSection" class="table-section hidden">
+      <h2>All Patients</h2>
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Age</th>
+              <th>Gender</th>
+              <th>Contact</th>
+              <th>Token ID</th>
+            </tr>
+          </thead>
+          <tbody id="patientTableBody"></tbody>
+        </table>
       </div>
     </div>
 
-    <script src="receptionistDashBoard.js"></script>
-  </body>
+    <!-- Patient History Table -->
+    <div id="patientHistorySection" class="table-section hidden">
+      <h2>Patient History</h2>
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Age</th>
+              <th>Gender</th>
+              <th>Contact</th>
+              <th>Token ID</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="historyTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Billing Section -->
+    <div id="billingSection" class="table-section hidden">
+      <h2>Pending Bills</h2>
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Age</th>
+              <th>Gender</th>
+              <th>Contact</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="billTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Create Bill Form -->
+    <div id="createBillForm" class="form-section hidden">
+      <h2>Create Bill</h2>
+      <form id="billForm">
+        <input type="text" id="billServices" placeholder="Services (e.g. X-Ray, MRI)" required />
+        <input type="number" id="billAmount" placeholder="Amount (in ₹)" required />
+        <button type="submit">Submit Bill</button>
+      </form>
+    </div>
+
+    <!-- Record Modal (Prescription + Bill Combined) -->
+    <div id="recordModal" class="modal hidden">
+      <div class="modal-content">
+        <span onclick="closeRecordModal()" class="close-btn">&times;</span>
+        <div id="recordModalContent" style="margin-bottom: 15px;"></div>
+        <!-- <div class="modal-actions">
+          <button onclick="printRecord()">🖨️ Print</button>
+          <button onclick="downloadRecord()">📥 Download</button>
+        </div> -->
+      </div>
+    </div>
+  </div>
+
+  <script src="receptionistDashBoard.js"></script>
+</body>
 </html>

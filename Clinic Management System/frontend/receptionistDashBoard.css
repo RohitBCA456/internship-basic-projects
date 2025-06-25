@@ -23,6 +23,8 @@ h2 {
   display: flex;
   justify-content: space-around;
   margin-bottom: 30px;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .button-group button {
@@ -40,7 +42,7 @@ h2 {
 }
 
 #logoutBtn {
-          background-color: red;
+  background-color: red;
 }
 
 .form-section,
@@ -74,8 +76,14 @@ h2 {
   background-color: #0be881;
 }
 
-table {
+.table-responsive {
   width: 100%;
+  overflow-x: auto;
+}
+
+.table-responsive table {
+  width: 100%;
+  min-width: 600px;
   border-collapse: collapse;
   margin-top: 10px;
 }
@@ -105,7 +113,7 @@ table button:hover {
 }
 
 .hidden {
-  display: none;
+  display: none !important;
 }
 
 .modal {
@@ -118,35 +126,83 @@ table button:hover {
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 999;
 }
 
 .modal-content {
+  position: relative;
   background: white;
   padding: 30px;
   border-radius: 10px;
-  text-align: center;
+  text-align: left;
+  max-width: 700px;
+  width: 90%;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  overflow-y: auto;
+  max-height: 90vh;
 }
 
-.modal-content button {
-  margin: 10px;
-  padding: 10px 15px;
+.modal-content h3 {
+  margin-top: 0;
+  color: #222;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+}
+
+.modal-content .close-btn {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 26px;
+  font-weight: bold;
+  color: #333;
+  background: none;
   border: none;
-  border-radius: 6px;
   cursor: pointer;
 }
 
-.modal-content button:first-child {
-  background-color: #1e90ff;
-  color: white;
+.modal-content .close-btn:hover {
+  color: red;
 }
 
-.modal-content button:last-child {
-  background-color: #ff3f34;
-  color: white;
+.record-box {
+  background: #f9f9f9;
+  border-left: 5px solid #3c40c6;
+  padding: 15px;
+  margin: 20px 0;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
 
-.hidden {
-  display: none !important;
+.record-box h4 {
+  margin: 0 0 10px;
+  color: #3c40c6;
+}
+
+.record-box p {
+  margin: 5px 0;
+  font-size: 15px;
+  color: #333;
+}
+
+.modal-buttons {
+  margin-top: 15px;
+}
+
+.modal-buttons button {
+  margin-right: 10px;
+  padding: 8px 14px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.2s;
+}
+
+.modal-buttons button:hover {
+  background-color: #0056b3;
 }
 
 @media (max-width: 768px) {
@@ -164,56 +220,17 @@ table button:hover {
   h1,
   h2 {
     font-size: 1.5rem;
-    margin-left: 0;
   }
 
-  table,
-  thead,
-  tbody,
-  th,
-  td,
-  tr {
-    display: block;
-    width: 100%;
+  .table-responsive {
+    overflow-x: auto;
   }
 
-  thead {
-    display: none;
-  }
-
-  tr {
-    margin-bottom: 15px;
-    background: #fff;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    padding: 10px;
-    border-radius: 8px;
-  }
-
-  td {
-    text-align: left;
-    padding: 10px;
-    position: relative;
-  }
-
-  td::before {
-    content: attr(data-label);
-    font-weight: bold;
-    display: block;
-    margin-bottom: 5px;
-    color: #555;
+  .table-responsive table {
+    min-width: 700px;
   }
 
   .modal-content {
-    width: 90%;
     padding: 20px;
   }
-}
-
-.table-responsive {
-  width: 100%;
-  overflow-x: auto;
-}
-
-.table-responsive table {
-  min-width: 600px; /* or larger based on columns */
 }

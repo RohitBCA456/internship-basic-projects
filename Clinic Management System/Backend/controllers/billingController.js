@@ -1,3 +1,4 @@
+import { Prescription } from "../models/prescriptionModel.js";
 import { Bill } from "../models/billModel.js";
 import { Patient } from "../models/patientModel.js";
 
@@ -39,6 +40,28 @@ export const getBillsByPatient = async (req, res) => {
     });
   } catch (error) {
     console.error("Error fetching bills:", error);
+    res.status(500).json({ success: false, message: "Server error." });
+  }
+};
+
+export const getPatientsWithPrescriptionNoBill = async (req, res) => {
+  try {
+    const prescriptions = await Prescription.find().populate("patientId");
+    const bills = await Bill.find();
+
+    const billedPatientIds = new Set(bills.map(b => b.patientId.toString()));
+
+    const filteredPatients = prescriptions
+      .filter(p => !billedPatientIds.has(p.patientId._id.toString()))
+      .map(p => p.patientId);
+
+    const uniquePatients = Array.from(
+      new Map(filteredPatients.map(p => [p._id.toString(), p])).values()
+    );
+
+    res.status(200).json({ success: true, data: uniquePatients });
+  } catch (err) {
+    console.error("Error fetching filtered patients:", err);
     res.status(500).json({ success: false, message: "Server error." });
   }
 };
