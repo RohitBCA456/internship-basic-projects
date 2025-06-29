@@ -27,7 +27,7 @@ This repository contains a series of practical projects built during my internsh
 
 ---
 
-### 3. Student-Teacher Appointment Booking System *(Ongoing)*
+### 3. Student-Teacher Appointment Booking System 
 - **Tech Used**: Node.js, Express.js, MongoDB, HTML, CSS, JavaScript
 - **Description**: A role-based system where students can search for teachers and book appointments. Teachers can manage appointments, and an admin can view all users.
 - **Features**:
@@ -39,7 +39,7 @@ This repository contains a series of practical projects built during my internsh
 
 ---
 
-### 4. Clinic Management System *(Upcoming)*
+### 4. Clinic Management System 
 - **Tech Planned**: MongoDB, Express.js, Node.js, JavaScript
 - **Goal**: A complete system to help clinics manage patient records, appointments, and doctor availability.
 - **Planned Features**:
